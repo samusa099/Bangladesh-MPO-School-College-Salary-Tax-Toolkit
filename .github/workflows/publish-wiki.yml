@@ -34,17 +34,27 @@ jobs:
           test -f wiki/_Sidebar.md
           find wiki -maxdepth 1 -type f -name '*.md' -print | sort
 
+      - name: Check Wiki publishing credentials
+        id: wiki_credentials
+        shell: bash
+        env:
+          WIKI_TOKEN: ${{ secrets.WIKI_TOKEN }}
+        run: |
+          if [[ -n "${WIKI_TOKEN}" ]]; then
+            echo "available=true" >> "${GITHUB_OUTPUT}"
+          else
+            echo "available=false" >> "${GITHUB_OUTPUT}"
+            echo "::warning title=Wiki publication skipped::WIKI_TOKEN is not configured. Source validation passed, but publishing to the GitHub Wiki was skipped."
+          fi
+
       - name: Publish Wiki pages
+        if: steps.wiki_credentials.outputs.available == 'true'
         shell: bash
         env:
           WIKI_TOKEN: ${{ secrets.WIKI_TOKEN }}
           REPOSITORY: ${{ github.repository }}
         run: |
           set -euo pipefail
-          if [[ -z "${WIKI_TOKEN}" ]]; then
-            echo "WIKI_TOKEN is not configured. Add a fine-grained token with repository Contents write access."
-            exit 1
-          fi
 
           wiki_url="https://x-access-token:${WIKI_TOKEN}@github.com/${REPOSITORY}.wiki.git"
           git clone "${wiki_url}" wiki-publish
