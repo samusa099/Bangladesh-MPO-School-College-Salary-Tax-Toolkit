@@ -1,38 +1,69 @@
-# FAQ
+# ❓ Frequently Asked Questions
 
 ## Is this an official MPO salary bill?
 
-No. This is an open-source Excel planning toolkit.
+No. This is an open-source Excel planning, research, and validation toolkit. Official salary statements and authority instructions remain controlling.
 
-## Can it file a tax return?
+## Can the workbook file a tax return?
 
-No. It prepares a working estimate and summary only.
+No. It prepares a working estimate and summary only. A taxpayer must verify the applicable law, evidence, exemptions, rebates, minimum tax, and filing requirements.
 
-## Why only School and College?
+## Why does the package cover only School and College?
 
-Different education sectors use different authority rules. School/College, Madrasa, Ebtedayi and Technical/Vocational packages should remain separate.
+School and College, Madrasa, Ebtedayi, and Technical or Vocational education operate under different authorities and source documents. Their rule tables must remain separate.
 
 ## Why are some values editable?
 
-Some items need complete source extraction and review. Those values remain editable and labelled Beta or User Input.
+Some rates and interpretations still require complete source extraction or professional review. These fields remain visibly marked as Beta or user-configurable.
 
-## Why no VBA?
+## Which cells should users edit?
 
-Version 1 avoids VBA to improve transparency, compatibility and safety.
+Only highlighted or explicitly designated input cells. Formula, lookup, validation, and output cells should not be overwritten.
 
-## Why separate GitHub and Kaggle packages?
+## Why is there no VBA?
 
-GitHub is for engineering, research and validation. Kaggle is for clean public download and usage.
+Version 1 avoids VBA to improve transparency, compatibility, auditability, and user safety.
 
-## What should users edit?
+## What Excel version is supported?
 
-Only highlighted input cells and intended expense cells.
+Core formulas target Microsoft Excel 2019 or later. Compatibility should be checked before every public release.
 
-## What must be checked before Verified release?
+## Why are GitHub and Kaggle packages different?
 
-- Source register
-- Data dictionary
-- Test cases
-- Official salary-row reconciliation
-- Practitioner review
+GitHub contains engineering, research, validation, governance, and release history. Kaggle contains a curated public download package.
+
+## How should the workbook be named?
+
+```text
+MPO_School_College_Salary_Tax_BD_TY2026_27.xlsx
+```
+
+Do not add `final`, `new`, `copy`, `latest`, or `updated`.
+
+## What is required before a Verified release?
+
+- Source-linked rules with effective dates
+- 20–30 deterministic test cases
+- At least 10 anonymized official salary reconciliations
 - Formula protection
+- Excel compatibility checks
+- MPO or payroll practitioner review
+- Tax practitioner review
+- Complete release notes and naming compliance
+
+## What should I do when a result looks wrong?
+
+1. Recheck `USER_INPUT`.
+2. Confirm the applicable grade and taxpayer category.
+3. Trace the result through `SECTOR_RULES` and the calculation sheets.
+4. Review the source ID in `SOURCE_REGISTER`.
+5. Reproduce the case in `TEST_CASES`.
+6. Report the issue with anonymized inputs, expected result, actual result, and workbook version.
+
+## Can a previous tax-year workbook be overwritten?
+
+No. Each tax year must remain a separate, traceable asset.
+
+---
+
+**Need a guided workflow?** Start with [Getting Started](Getting-Started.md) or review [Validation and Release Gates](Validation-and-Release-Gates.md).
