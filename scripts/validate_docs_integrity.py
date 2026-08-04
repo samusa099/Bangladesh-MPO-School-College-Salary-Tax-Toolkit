@@ -20,26 +20,46 @@ for index_name in ("Navigation.md", "_Sidebar.md"):
         if not candidate.is_file():
             errors.append(f"{index_name}: missing wiki page {filename}")
 
-# Navigation and final index must expose the same publishing pages.
+
 def publishing_entries(path: Path) -> set[str]:
+    """Return normalized Markdown filenames from a publishing section."""
     if not path.exists():
         errors.append(f"Missing required index: {path.relative_to(ROOT)}")
         return set()
+
     text = path.read_text(encoding="utf-8")
-    match = re.search(r"^## Publishing(?: pages)?\s*$([\s\S]*?)(?=^## |\Z)", text, re.MULTILINE)
-    if not match:
+    heading = re.search(
+        r"^##\s+(?:[^\w\s]+\s*)?Publishing(?:\s+and\s+Releases|\s+pages)?\s*$",
+        text,
+        re.MULTILINE | re.IGNORECASE,
+    )
+    if not heading:
         errors.append(f"{path.name}: missing Publishing section")
         return set()
+
+    next_heading = re.search(r"^##\s+", text[heading.end() :], re.MULTILINE)
+    section_end = heading.end() + next_heading.start() if next_heading else len(text)
+    section = text[heading.end() : section_end]
+
     entries: set[str] = set()
-    for line in match.group(1).splitlines():
+    for line in section.splitlines():
         line = line.strip()
         if not line.startswith("-"):
             continue
-        value = line[1:].strip().strip("`")
-        value = value.removesuffix(".md").replace("-", " ").casefold()
-        entries.add(value)
+
+        link = re.search(r"\[[^\]]+\]\(([^)]+\.md)\)", line)
+        code = re.search(r"`([^`]+\.md)`", line)
+        target = link.group(1) if link else code.group(1) if code else None
+        if not target:
+            continue
+
+        name = Path(target).name.removesuffix(".md").replace("-", " ").casefold()
+        entries.add(name)
+
     return entries
 
+
+# Navigation and final index must expose the same publishing pages.
 navigation = publishing_entries(WIKI / "Navigation.md")
 final_index = publishing_entries(WIKI / "Final-Wiki-Index.md")
 if navigation != final_index:
