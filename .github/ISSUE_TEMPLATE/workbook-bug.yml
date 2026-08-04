@@ -1,0 +1,52 @@
+name: Workbook bug
+about: Report a calculation, formula, layout, source, or compatibility problem
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Do not upload NID, TIN, bank details, payroll records, or other personal data."
+  - type: input
+    id: version
+    attributes:
+      label: Workbook version
+      placeholder: v0.1.2
+    validations:
+      required: true
+  - type: input
+    id: sheet
+    attributes:
+      label: Sheet and cell/range
+      placeholder: TAX_CALCULATION!F12 or DASHBOARD
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the incorrect result, warning, broken link, or layout problem.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Source or validation evidence
+      description: Include a public policy source, test case, or anonymized calculation.
+  - type: dropdown
+    id: excel
+    attributes:
+      label: Excel environment
+      options:
+        - Excel 2019
+        - Excel 2021
+        - Microsoft 365
+        - LibreOffice
+        - Google Sheets import
+        - Other
+    validations:
+      required: true
