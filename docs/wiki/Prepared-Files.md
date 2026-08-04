@@ -2,9 +2,13 @@
 
 ## Workbook
 
+The canonical repository filename is stable and tax-year specific:
+
 ```text
-MPO_School_College_Salary_Tax_BD_TY2026_27_v0.1.2.xlsx
+MPO_School_College_Salary_Tax_BD_TY2026_27.xlsx
 ```
+
+Release versions are represented by Git tags and release metadata, not by adding a version suffix to the workbook filename.
 
 ## Package
 
