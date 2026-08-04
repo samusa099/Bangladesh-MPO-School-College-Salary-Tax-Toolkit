@@ -20,12 +20,12 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
 
       - name: Detect unintentionally duplicated files
-        uses: chris-rutkowski/duplicate-guard@v1.0.2
+        uses: chris-rutkowski/duplicate-guard@01e2af7b15e45e2ef66d65786a0b73855232748f # v1.0.2
 
   commit-message-validator:
     name: Commit Message Validator
@@ -34,9 +34,9 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
 
       - name: Validate commit messages
-        uses: zjuDBxAI/commit-message-validator@v1.0.0
+        uses: zjuDBxAI/commit-message-validator@3103b34d5ea3c5b754fd885ce47366db0c8ce6b9 # v1.0.0
