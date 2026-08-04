@@ -16,7 +16,7 @@
   <a href="#-workbook-modules">Workbook</a> ·
   <a href="#-repository-structure">Structure</a> ·
   <a href="data/csv/README.md">CSV Layer</a> ·
-  <a href="docs/wiki/Home.md">Wiki Source</a> ·
+  <a href="wiki/Home.md">Wiki Source</a> ·
   <a href="packages/kaggle/README.md">Kaggle Package</a>
 </p>
 
@@ -36,7 +36,7 @@ This repository turns Bangladesh MPO payroll and individual-tax rules into a str
 | 📊 Reporting | Annual statement, tax summary, dashboard and printable payslip |
 | ✅ Validation | Deterministic formula scenarios, source register and verification status |
 | 📁 Open data support | Reviewable CSV reference exports for Python, SQL and BI tools |
-| 📚 Documentation | Version-controlled Wiki source under `docs/wiki/` |
+| 📚 Documentation | Version-controlled Wiki source under `wiki/` |
 | 📦 Distribution | Separate Kaggle-ready package design under `packages/kaggle/` |
 
 ## 🧰 Repository tools and governance
@@ -45,7 +45,7 @@ This repository turns Bangladesh MPO payroll and individual-tax rules into a str
 |---|---|---|
 | Portfolio Security | Validates repository files, XLSX archives, CSV safety, immutable Actions and committed secrets | [Workflow](.github/workflows/portfolio-security.yml) |
 | Repository policy | Workbook-focused validation script used by GitHub Actions | [Validator](.github/scripts/repository_policy.py) |
-| Wiki Publisher | Synchronizes the authoritative `docs/wiki/` source to the separate GitHub Wiki repository | [Workflow](.github/workflows/publish-wiki.yml) |
+| Wiki Publisher | Synchronizes the authoritative `wiki/` source to the separate GitHub Wiki repository | [Workflow](.github/workflows/publish-wiki.yml) |
 | Dependabot | Maintains GitHub Actions dependencies on an Asia/Dhaka schedule | [Configuration](.github/dependabot.yml) |
 | Workbook bug report | Structured form for formula, layout, source and compatibility defects | [Open a bug report](../../issues/new?template=workbook-bug.yml) |
 | Pull-request checklist | Requires workbook, source, privacy and security validation | [Template](.github/pull_request_template.md) |
@@ -112,7 +112,7 @@ Verified sources and structured reference records
       GitHub release and Kaggle package
 ```
 
-GitHub is the **engineering workspace**. Kaggle is the **curated distribution workspace**. The GitHub Wiki is a **published copy** of the authoritative Markdown under `docs/wiki/`.
+GitHub is the **engineering workspace**. Kaggle is the **curated distribution workspace**. The GitHub Wiki is a **published copy** of the authoritative Markdown under `wiki/`.
 
 ## 🗂️ Repository structure
 
@@ -128,8 +128,7 @@ Bangladesh-MPO-School-College-Salary-Tax-Toolkit/
 ├── docs/
 │   ├── governance/             # Release, security and maintenance guidance
 │   ├── research/               # Project-specific rule research
-│   ├── user-guides/            # Workbook usage guidance
-│   └── wiki/                   # Authoritative GitHub Wiki source
+│   └── user-guides/            # Workbook usage guidance
 ├── excel/
 │   ├── shared_engine/          # Reusable calculation-engine notes
 │   └── school_college/         # School and College workbook package
@@ -138,6 +137,7 @@ Bangladesh-MPO-School-College-Salary-Tax-Toolkit/
 │   └── kaggle/                 # Curated distribution workspace
 ├── release/                    # Release notes and manifests
 ├── tests/                      # Formula-validation scenarios
+├── wiki/                       # Authoritative GitHub Wiki source
 ├── CHANGELOG.md
 ├── CITATION.cff
 ├── CONTRIBUTING.md
@@ -166,13 +166,13 @@ No employee-identifiable payroll, bank, national-ID or tax-return data belongs i
 
 ```text
 Main repository
-└── docs/wiki/                    authoritative, reviewable source
+└── wiki/                         authoritative, reviewable source
 
 GitHub Wiki repository
 └── *.md                          published copy
 ```
 
-A root-level `/wiki/` folder is intentionally not used. The GitHub Wiki tab is backed by the separate `.wiki.git` repository. The controlled publishing workflow requires a repository secret named `WIKI_TOKEN` with suitable contents-write access.
+A duplicate `docs/wiki/` source is intentionally not used. The GitHub Wiki tab is backed by the separate `.wiki.git` repository. The controlled publishing workflow requires a repository secret named `WIKI_TOKEN` with suitable contents-write access.
 
 ## ✅ Verification status
 
