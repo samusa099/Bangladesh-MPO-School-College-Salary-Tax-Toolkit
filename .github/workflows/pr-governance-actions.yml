@@ -1,0 +1,39 @@
+name: PR Governance Actions
+on: [pull_request, pull_request_review]
+permissions: {contents: read, pull-requests: write, issues: write}
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Diff Calculator Action
+        uses: themoin/diff-calculator@v0.2.3
+        with: {source: "${{ github.event.pull_request.head.sha }}", target: "${{ github.event.pull_request.base.sha }}"}
+      - name: limit-size
+        uses: 7PH/limit-size@v1.0.0
+        with: {github_token: "${{ secrets.GITHUB_TOKEN }}", files: "**/*: 25mb"}
+      - id: cfg
+        shell: bash
+        env: {A: "${{ secrets.ANTHROPIC_API_KEY }}", M: "${{ secrets.MONTARA_WEBHOOK_URL }}", SN: "${{ vars.SKILL_NAME }}", SP: "${{ vars.SKILL_PATH }}"}
+        run: |
+          [[ -f .reviewers.yaml ]] && echo r=1 >>$GITHUB_OUTPUT || true
+          [[ -f .github/auto-label.json ]] && echo l=1 >>$GITHUB_OUTPUT || true
+          [[ -n "$A" && -n "$SN" && -n "$SP" && -d "$SP" ]] && echo s=1 >>$GITHUB_OUTPUT || true
+          [[ -n "$M" ]] && echo m=1 >>$GITHUB_OUTPUT || true
+      - name: PR Reviewers Action
+        if: steps.cfg.outputs.r == '1'
+        uses: patricklubach/reviewer-action@v1.0.0
+        with: {token: "${{ secrets.GITHUB_TOKEN }}", pr_number: "${{ github.event.pull_request.number }}"}
+      - name: Auto Label Action
+        if: steps.cfg.outputs.l == '1' && github.event_name == 'pull_request'
+        uses: banyan/auto-label@1.2
+        env: {GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"}
+      - name: Skill Eval
+        if: steps.cfg.outputs.s == '1' && github.event_name == 'pull_request'
+        uses: skill-bench/skill-eval-action@v1.3.0
+        with: {skill-name: "${{ vars.SKILL_NAME }}", skill-path: "${{ vars.SKILL_PATH }}", anthropic-api-key: "${{ secrets.ANTHROPIC_API_KEY }}"}
+      - name: Montara CI
+        if: steps.cfg.outputs.m == '1' && github.event_name == 'pull_request'
+        uses: montara-io/montara-ci@v1.0.20
+        with: {webhookUrl: "${{ secrets.MONTARA_WEBHOOK_URL }}"}
