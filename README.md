@@ -8,8 +8,32 @@
 [![Bangladesh MPO](https://img.shields.io/badge/Bangladesh-MPO-0F766E?style=for-the-badge)](#)
 [![Tax Year](https://img.shields.io/badge/Tax%20Year-2026--27-2563EB?style=for-the-badge)](#)
 [![Status](https://img.shields.io/badge/Status-Beta-B7791F?style=for-the-badge)](#)
+[![Portfolio Security](https://img.shields.io/github/actions/workflow/status/samusa099/Bangladesh-MPO-School-College-Salary-Tax-Toolkit/portfolio-security.yml?branch=main&style=for-the-badge&label=Portfolio%20Security)](../../actions/workflows/portfolio-security.yml)
+[![Issues](https://img.shields.io/github/issues/samusa099/Bangladesh-MPO-School-College-Salary-Tax-Toolkit?style=for-the-badge)](../../issues)
+
+<p align="center">
+  <a href=".github/workflows/portfolio-security.yml"><strong>Security workflow</strong></a> ·
+  <a href=".github/scripts/repository_policy.py"><strong>Repository policy</strong></a> ·
+  <a href=".github/dependabot.yml"><strong>Dependabot</strong></a> ·
+  <a href=".github/ISSUE_TEMPLATE/workbook-bug.yml"><strong>Workbook bug form</strong></a> ·
+  <a href=".github/pull_request_template.md"><strong>PR checklist</strong></a> ·
+  <a href="SECURITY.md"><strong>Security policy</strong></a>
+</p>
 
 An open-source, Excel-based toolkit for **MPO-listed School & College employees in Bangladesh** to prepare salary statements, tax estimates, payslips, and personal finance dashboards.
+
+## Repository tools and governance
+
+| Tool | Purpose | Open |
+|---|---|---|
+| Portfolio Security | Validates repository files, XLSX archives, CSV safety, immutable Actions and committed secrets | [Workflow](.github/workflows/portfolio-security.yml) |
+| Repository policy | Workbook-focused validation script used by GitHub Actions | [Validator](.github/scripts/repository_policy.py) |
+| Dependabot | Maintains GitHub Actions dependencies on an Asia/Dhaka schedule | [Configuration](.github/dependabot.yml) |
+| Workbook bug report | Structured form for formula, layout, source and compatibility defects | [Open a bug report](../../issues/new?template=workbook-bug.yml) |
+| Pull-request checklist | Requires workbook, source, privacy and security validation | [Template](.github/pull_request_template.md) |
+| Security policy | Defines private reporting, restricted data and workbook security controls | [Policy](SECURITY.md) |
+
+> GitHub displays standard community files such as README, Code of Conduct, Contributing, License and Security in the repository header. Workflow, Dependabot, issue-template and PR-template files are now linked prominently here because GitHub does not add them to that header tab row.
 
 ## What this project does
 
@@ -82,6 +106,7 @@ Institution-specific workbook
 GitHub is the **engineering workspace**. Kaggle is the **clean distribution package**.
 
 ```text
+.github/                Workflows, repository policy, Dependabot and contribution templates
 assets/                 Brand and preview images
 data/reference/         Metadata and structured reference records
 docs/                   Research, source methodology, user guides and governance
