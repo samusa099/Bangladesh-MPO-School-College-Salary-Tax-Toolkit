@@ -1,0 +1,18 @@
+* text=auto eol=lf
+
+*.md text diff=markdown
+*.csv text eol=lf
+*.py text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+
+*.xlsx binary
+*.xlsm binary
+*.xls binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.pdf binary
+*.zip binary
