@@ -5,13 +5,13 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with: {fetch-depth: 0}
       - name: Diff Calculator Action
-        uses: themoin/diff-calculator@v0.2.3
+        uses: themoin/diff-calculator@c8659ef8d22c547fc3b16984a8a39fba63657088 # v0.2.3
         with: {source: "${{ github.event.pull_request.head.sha }}", target: "${{ github.event.pull_request.base.sha }}"}
       - name: limit-size
-        uses: 7PH/limit-size@v1.0.0
+        uses: 7PH/limit-size@301725782a5b1883b2a277e3b446e58dd3fcf84c # v1.0.0
         with: {github_token: "${{ secrets.GITHUB_TOKEN }}", files: "**/*: 25mb"}
       - id: cfg
         shell: bash
@@ -23,17 +23,17 @@ jobs:
           [[ -n "$M" ]] && echo m=1 >>$GITHUB_OUTPUT || true
       - name: PR Reviewers Action
         if: steps.cfg.outputs.r == '1'
-        uses: patricklubach/reviewer-action@v1.0.0
+        uses: patricklubach/reviewer-action@08ac0b7c9afeb55739d2a8c6c8180bebf7874cde # v1.0.0
         with: {token: "${{ secrets.GITHUB_TOKEN }}", pr_number: "${{ github.event.pull_request.number }}"}
       - name: Auto Label Action
         if: steps.cfg.outputs.l == '1' && github.event_name == 'pull_request'
-        uses: banyan/auto-label@1.2
+        uses: banyan/auto-label@45a96386f4cac601434ed0f34db11c8df2fcac86 # 1.2
         env: {GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"}
       - name: Skill Eval
         if: steps.cfg.outputs.s == '1' && github.event_name == 'pull_request'
-        uses: skill-bench/skill-eval-action@v1.3.0
+        uses: skill-bench/skill-eval-action@32cb44e77cf3147ebbe140a953065e0ac89eddb6 # v1.3.0
         with: {skill-name: "${{ vars.SKILL_NAME }}", skill-path: "${{ vars.SKILL_PATH }}", anthropic-api-key: "${{ secrets.ANTHROPIC_API_KEY }}"}
       - name: Montara CI
         if: steps.cfg.outputs.m == '1' && github.event_name == 'pull_request'
-        uses: montara-io/montara-ci@v1.0.20
+        uses: montara-io/montara-ci@eca5afc53f2e39c847d187e4bf43b1bef9e1056e # v1.0.20
         with: {webhookUrl: "${{ secrets.MONTARA_WEBHOOK_URL }}"}
