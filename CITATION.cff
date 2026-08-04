@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this toolkit, please cite it using the metadata below."
+title: "Bangladesh MPO School & College Salary Tax Toolkit"
+type: software
+authors:
+  - family-names: "Musa"
+    given-names: "Siam Ahmad"
+repository-code: "https://github.com/samusa099/Bangladesh-MPO-School-College-Salary-Tax-Toolkit"
+url: "https://github.com/samusa099/Bangladesh-MPO-School-College-Salary-Tax-Toolkit"
+license: MIT
+version: "0.1.3"
+date-released: "2026-08-05"
+keywords:
+  - Bangladesh
+  - MPO
+  - salary
+  - payroll
+  - income tax
+  - Excel
+abstract: >-
+  An open-source Excel-based toolkit for Bangladesh MPO-listed school and
+  college employees to prepare salary statements, tax estimates, payslips,
+  validation cases, and personal-finance summaries.
