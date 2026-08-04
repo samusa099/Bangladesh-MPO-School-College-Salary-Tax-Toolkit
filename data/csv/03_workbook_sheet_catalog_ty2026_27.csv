@@ -1,0 +1,16 @@
+sheet_order,sheet_name,layer,purpose,user_editable,release_critical
+1,START_HERE,Documentation,Workbook instructions scope and verification legend,No,Yes
+2,USER_INPUT,Input,Employee institution salary deduction and taxpayer inputs,Yes,Yes
+3,SECTOR_RULES,Rules,School and College rule configuration,Maintainer only,Yes
+4,MONTHLY_SALARY,Calculation,Monthly earnings deductions and net salary,No,Yes
+5,ANNUAL_SALARY,Calculation,Annual salary aggregation,No,Yes
+6,TAX_CALCULATION,Calculation,Taxable income slab tax minimum tax TDS and payable estimate,Limited inputs,Yes
+7,INCOME_EXPENSE,Planning,Annual expense allocation and savings gap,Yes,No
+8,DASHBOARD,Reporting,Salary tax expense and savings KPIs and charts,No,Yes
+9,PAYSLIP,Reporting,Selected-month printable payslip,Limited selection,Yes
+10,TAX_SUMMARY,Reporting,Annual tax summary for planning and review,No,Yes
+11,SOURCE_REGISTER,Governance,Source IDs effective dates links and verification status,Maintainer only,Yes
+12,DATA_DICTIONARY,Governance,Field definitions formulas and data types,Maintainer only,Yes
+13,TEST_CASES,Quality,Deterministic formula and boundary validation,Maintainer only,Yes
+14,PROJECT_CHARTER,Governance,Scope architecture release rules and exclusions,No,Yes
+15,TAXPAYER_CATEGORIES,Reference,Category thresholds and estimated tax comparison,No,Yes

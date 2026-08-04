@@ -1,0 +1,16 @@
+test_id,area,scenario,input_summary,expected_rule,priority,status
+TC-HR-001,House Rent,Basic salary produces percentage above floor,Basic BDT 25000,House rent equals BDT 3750,Critical,Defined
+TC-HR-002,House Rent,Low basic salary triggers minimum floor,Basic BDT 10000,House rent equals BDT 2000,Critical,Defined
+TC-SF-001,Special Facility,Grade 1-9 percentage rule,Basic BDT 50000 and grade 9,Special facility equals BDT 5000,Critical,Defined
+TC-SF-002,Special Facility,Grade 10-20 percentage above floor,Basic BDT 25000 and grade 10,Special facility equals BDT 3750,Critical,Defined
+TC-SF-003,Special Facility,Grade 10-20 minimum floor,Basic BDT 8000 and grade 20,Special facility equals BDT 1500,Critical,Defined
+TC-TAX-001,Tax Threshold,General male below threshold,Taxable income BDT 400000,Slab tax equals zero,High,Defined
+TC-TAX-002,Tax Threshold,Female taxpayer below category threshold,Taxable income BDT 437250,Estimated tax equals zero before other adjustments,High,Defined
+TC-TAX-003,Tax Threshold,General male above threshold,Taxable income BDT 437250,Income above threshold equals BDT 37250,High,Defined
+TC-TAX-004,Minimum Tax,Existing taxpayer with positive slab liability below minimum,General male taxable income BDT 437250,Estimated tax applies BDT 5000 minimum,High,Defined
+TC-TAX-005,Minimum Tax,New taxpayer minimum tax assumption,Positive tax position and New Taxpayer Yes,Minimum tax assumption equals BDT 1000,High,Defined
+TC-CAT-001,Category Mapping,Female age 65 plus does not stack thresholds,Female taxpayer age 65 plus,Threshold remains BDT 450000,High,Defined
+TC-DEP-001,Dependent Disability,Eligible dependent addition applied once,One eligible dependent with disability,Threshold addition equals BDT 50000,High,Defined
+TC-DEP-002,Dependent Disability,Double claim prohibited,Both parents are taxpayers,Only one parent may claim the addition,High,Manual review
+TC-INT-001,Annual Integration,Monthly totals reconcile to annual statement,Twelve monthly salary rows,Annual components equal sum of monthly rows,Critical,Defined
+TC-INT-002,Dashboard Integration,Dashboard KPIs reconcile to annual sheets,Completed annual salary tax and expense data,Dashboard values equal linked source totals,Critical,Defined
