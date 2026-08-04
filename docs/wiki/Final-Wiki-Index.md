@@ -39,6 +39,9 @@
 - [Public Release Checklist](Public-Release-Checklist.md)
 - [GitHub and Kaggle Publishing](GitHub-and-Kaggle-Publishing.md)
 - [Kaggle Dataset Setup](Kaggle-Dataset-Setup.md)
+- [Workbook Asset Status](Workbook-Asset-Status.md)
+- [Release Asset Manifest](Release-Asset-Manifest.md)
+- [Binary Asset Upload Checklist](Binary-Asset-Upload-Checklist.md)
 
 ## 🗺️ Planning and Support
 
