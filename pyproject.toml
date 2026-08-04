@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bd-mpo-salary-tax-toolkit"
+version = "0.1.3"
+description = "Validation and packaging utilities for the Bangladesh MPO School & College Salary Tax Toolkit"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Siam Ahmad Musa" }]
+dependencies = [
+  "openpyxl>=3.1,<4",
+  "pandas>=2.2,<4",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8,<9",
+  "ruff>=0.12,<1",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
