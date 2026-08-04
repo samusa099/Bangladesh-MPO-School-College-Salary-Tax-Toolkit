@@ -28,5 +28,6 @@ Use this page as the compact final index for the repository wiki.
 - GitHub and Kaggle Publishing
 - Kaggle Dataset Setup
 - Release Package Structure
+- Workbook Asset Status
 - Release Asset Manifest
 - Binary Asset Upload Checklist
