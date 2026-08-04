@@ -36,9 +36,8 @@ assets/previews/cover-banner.jpg
 assets/previews/project-icon.jpg
 assets/previews/social-preview.jpg
 assets/previews/dashboard-preview.jpg
-docs/wiki/
+docs/wiki/Formula-Methodology.md
 docs/research/
-docs/formula_methodology/
 notebooks/
 tests/
 release/
