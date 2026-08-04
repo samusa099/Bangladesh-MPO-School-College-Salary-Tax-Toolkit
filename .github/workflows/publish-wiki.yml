@@ -74,3 +74,5 @@ jobs:
 
           git commit -m "docs: sync Wiki from root wiki folder"
           git push origin master
+
+# Workflow health-check refresh: 2026-08-05
