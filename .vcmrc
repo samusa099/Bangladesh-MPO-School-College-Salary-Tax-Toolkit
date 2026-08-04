@@ -1,0 +1,25 @@
+{
+  "types": [
+    "build",
+    "chore",
+    "ci",
+    "docs",
+    "feat",
+    "fix",
+    "perf",
+    "refactor",
+    "revert",
+    "style",
+    "test"
+  ],
+  "scope": {
+    "required": false,
+    "allowed": "*",
+    "validate": false,
+    "multiple": true
+  },
+  "subject": {
+    "required": true
+  },
+  "warnOnFail": false
+}
