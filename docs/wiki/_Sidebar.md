@@ -1,11 +1,27 @@
-# Wiki
+# 📘 Wiki Navigation
 
-- [Home](Home.md)
-- [Getting Started](Getting-Started.md)
-- [Workbook Sheet Guide](Workbook-Sheet-Guide.md)
-- [Taxpayer Categories](Taxpayer-Categories.md)
-- [Formula Methodology](Formula-Methodology.md)
-- [Validation and Release Gates](Validation-and-Release-Gates.md)
-- [GitHub and Kaggle Publishing](GitHub-and-Kaggle-Publishing.md)
-- [Roadmap](Roadmap.md)
-- [FAQ](FAQ.md)
+## 🚀 Start Here
+
+- [🏠 Home](Home.md)
+- [🚀 Getting Started](Getting-Started.md)
+- [📊 Workbook Sheet Guide](Workbook-Sheet-Guide.md)
+
+## 🧮 Rules and Calculations
+
+- [🧾 Taxpayer Categories](Taxpayer-Categories.md)
+- [🧮 Formula Methodology](Formula-Methodology.md)
+
+## ✅ Quality and Release
+
+- [✅ Validation and Release Gates](Validation-and-Release-Gates.md)
+- [🗂️ Asset Naming Convention](Asset-Naming-Convention.md)
+- [🚀 GitHub and Kaggle Publishing](GitHub-and-Kaggle-Publishing.md)
+
+## 🗺️ Planning and Support
+
+- [🗺️ Roadmap](Roadmap.md)
+- [❓ FAQ](FAQ.md)
+
+---
+
+**Current package:** School & College MPO · TY 2026–27 · Beta
