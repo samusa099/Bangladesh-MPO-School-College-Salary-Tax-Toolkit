@@ -5,7 +5,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'docs/wiki/**'
+      - 'wiki/**'
       - '.github/workflows/publish-wiki.yml'
 
 permissions:
@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   publish:
-    name: Sync docs/wiki to GitHub Wiki
+    name: Sync wiki to GitHub Wiki
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -30,9 +30,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test -f docs/wiki/Home.md
-          test -f docs/wiki/_Sidebar.md
-          find docs/wiki -maxdepth 1 -type f -name '*.md' -print | sort
+          test -f wiki/Home.md
+          test -f wiki/_Sidebar.md
+          find wiki -maxdepth 1 -type f -name '*.md' -print | sort
 
       - name: Publish Wiki pages
         shell: bash
@@ -50,7 +50,7 @@ jobs:
           git clone "${wiki_url}" wiki-publish
 
           find wiki-publish -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
-          cp docs/wiki/*.md wiki-publish/
+          cp wiki/*.md wiki-publish/
 
           cd wiki-publish
           git config user.name "github-actions[bot]"
@@ -62,5 +62,5 @@ jobs:
             exit 0
           fi
 
-          git commit -m "docs: sync Wiki from docs/wiki"
+          git commit -m "docs: sync Wiki from root wiki folder"
           git push origin master
