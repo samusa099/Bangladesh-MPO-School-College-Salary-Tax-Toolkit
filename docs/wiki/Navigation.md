@@ -20,9 +20,12 @@
 
 ## Publishing
 
+- `Asset-Naming-Convention.md`
+- `Release-Versioning.md`
+- `Release-Package-Structure.md`
+- `Public-Release-Checklist.md`
 - `GitHub-and-Kaggle-Publishing.md`
 - `Kaggle-Dataset-Setup.md`
-- `Release-Package-Structure.md`
 - `Workbook-Asset-Status.md`
 - `Release-Asset-Manifest.md`
 - `Binary-Asset-Upload-Checklist.md`
