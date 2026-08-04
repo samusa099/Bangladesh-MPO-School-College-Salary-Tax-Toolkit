@@ -8,12 +8,13 @@ This repository follows a layered structure inspired by strong analytics-project
 
 1. `excel/` contains the calculation product and workbook-engine material.
 2. `data/` contains structured reference and companion exports derived from this project only.
-3. `docs/` contains research, governance, user guidance and the authoritative Wiki source.
-4. `tests/` contains deterministic formula-validation material.
-5. `notebooks/` contains reproducible validation and analysis notebooks.
-6. `assets/` contains repository and release visuals.
-7. `release/` contains release notes, manifests and version-specific packaging metadata.
-8. `packages/` contains distribution-ready workspaces, never the engineering source of truth.
+3. `docs/` contains research, governance and user guidance.
+4. `wiki/` is the root-level, authoritative, version-controlled Wiki source.
+5. `tests/` contains deterministic formula-validation material.
+6. `notebooks/` contains reproducible validation and analysis notebooks.
+7. `assets/` contains repository and release visuals.
+8. `release/` contains release notes, manifests and version-specific packaging metadata.
+9. `packages/` contains distribution-ready workspaces, never the engineering source of truth.
 
 ## Target structure
 
@@ -32,8 +33,7 @@ Bangladesh-MPO-School-College-Salary-Tax-Toolkit/
 ├── docs/
 │   ├── governance/
 │   ├── research/
-│   ├── user-guides/
-│   └── wiki/
+│   └── user-guides/
 ├── excel/
 │   ├── shared_engine/
 │   └── school_college/
@@ -42,6 +42,10 @@ Bangladesh-MPO-School-College-Salary-Tax-Toolkit/
 │   └── kaggle/
 ├── release/
 ├── tests/
+├── wiki/                       # Authoritative Wiki source
+│   ├── Home.md
+│   ├── _Sidebar.md
+│   └── ...
 ├── CHANGELOG.md
 ├── CITATION.cff
 ├── CONTRIBUTING.md
@@ -59,7 +63,7 @@ Bangladesh-MPO-School-College-Salary-Tax-Toolkit/
 | `data/csv/` | Diff-friendly project reference exports | Companion layer |
 | `data/reference/` | Source metadata and structured rule records | Yes |
 | `docs/` | Research, methodology, governance and user documentation | Yes |
-| `docs/wiki/` | Authoritative version-controlled Wiki Markdown | Yes |
+| `wiki/` | Authoritative version-controlled Wiki Markdown | Yes |
 | `excel/` | Workbook binaries and calculation-engine documentation | Yes |
 | `notebooks/` | Reproducible formula and data checks | Yes |
 | `packages/kaggle/` | Download-friendly publication package | No; generated distribution layer |
@@ -84,13 +88,13 @@ Required characteristics:
 
 ```text
 Main repository
-└── docs/wiki/               authoritative and reviewable source
+└── wiki/                    authoritative and reviewable source
 
 GitHub Wiki repository
 └── *.md                     published copy
 ```
 
-A root-level `wiki/` directory is intentionally not used. GitHub's Wiki tab is backed by the separate `.wiki.git` repository and must be populated by a controlled publishing process from `docs/wiki/`.
+The Wiki source must remain outside `docs/`. The root-level `wiki/` directory is reviewed through normal pull requests and synchronized to the separate `.wiki.git` repository for the GitHub Wiki tab.
 
 ## Separation from other projects
 
