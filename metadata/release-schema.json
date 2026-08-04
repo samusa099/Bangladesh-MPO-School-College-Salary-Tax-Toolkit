@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bangladesh MPO Toolkit Release Metadata",
+  "type": "object",
+  "required": ["version", "tax_year", "status", "workbook"],
+  "properties": {
+    "version": {"type": "string"},
+    "tax_year": {"type": "string"},
+    "status": {"enum": ["Beta", "Verified"]},
+    "workbook": {"type": "string"},
+    "checksum_sha256": {"type": "string"},
+    "released_at": {"type": "string", "format": "date"}
+  },
+  "additionalProperties": true
+}
