@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="64" viewBox="0 0 980 64" role="img" aria-label="Toolkit badges">
+  <rect width="980" height="64" rx="16" fill="#F8FAFC"/>
+  <g font-family="Inter, Segoe UI, Arial" font-size="16" font-weight="700">
+    <rect x="16" y="14" width="150" height="36" rx="18" fill="#DCFCE7"/><text x="34" y="38" fill="#166534">Excel Toolkit</text>
+    <rect x="184" y="14" width="154" height="36" rx="18" fill="#DBEAFE"/><text x="204" y="38" fill="#1D4ED8">Bangladesh</text>
+    <rect x="356" y="14" width="120" height="36" rx="18" fill="#FEF3C7"/><text x="380" y="38" fill="#92400E">MPO</text>
+    <rect x="494" y="14" width="158" height="36" rx="18" fill="#E0E7FF"/><text x="518" y="38" fill="#3730A3">Payroll</text>
+    <rect x="670" y="14" width="126" height="36" rx="18" fill="#FCE7F3"/><text x="694" y="38" fill="#9D174D">Tax</text>
+    <rect x="814" y="14" width="150" height="36" rx="18" fill="#CCFBF1"/><text x="838" y="38" fill="#0F766E">Dashboard</text>
+  </g>
+</svg>
