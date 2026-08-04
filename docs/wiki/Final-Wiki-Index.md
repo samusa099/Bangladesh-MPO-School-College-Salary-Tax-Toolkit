@@ -1,33 +1,52 @@
-# Final Wiki Index
+# 🧭 Final Wiki Index
 
-Use this page as the compact final index for the repository wiki.
+[🏠 Home](Home.md) · [🚀 Getting Started](Getting-Started.md) · [📘 Research Pack 01](Research-Pack-01.md)
 
-## Core user pages
+> [!NOTE]
+> This is the authoritative navigation index for the maintained Wiki documentation.
 
-- Home
-- Getting Started
-- Workbook User Guide
-- Workbook Sheet Guide
-- Taxpayer Categories
-- Dashboard Guide
-- Payslip Guide
-- Income Expense Guide
+## 🚀 Start Here
 
-## Maintainer pages
+- [Home](Home.md)
+- [Getting Started](Getting-Started.md)
+- [Workbook Sheet Guide](Workbook-Sheet-Guide.md)
+- [Research Pack 01](Research-Pack-01.md)
+- [Taxpayer Categories](Taxpayer-Categories.md)
 
-- Formula Methodology
-- Salary Component Dictionary
-- Source Register
-- Validation Cases
-- Workbook QA
-- Workbook Maintenance
-- Workbook Security
+## 🧮 Calculations and Research
 
-## Publishing pages
+- [Formula Methodology](Formula-Methodology.md)
+- [Source Register](Source-Register.md)
+- [Minimum Tax Guide](Minimum-Tax-Guide.md)
+- [Tax Year Management](Tax-Year-Management.md)
+- [Salary Component Dictionary](Salary-Component-Dictionary.md)
 
-- GitHub and Kaggle Publishing
-- Kaggle Dataset Setup
-- Release Package Structure
-- Workbook Asset Status
-- Release Asset Manifest
-- Binary Asset Upload Checklist
+## ✅ Quality and Governance
+
+- [Validation and Release Gates](Validation-and-Release-Gates.md)
+- [Validation Cases](Validation-Cases.md)
+- [Workbook QA](Workbook-QA.md)
+- [Workbook Maintenance](Workbook-Maintenance.md)
+- [Workbook Security](Workbook-Security.md)
+- [Data Privacy](Data-Privacy.md)
+- [Practitioner Review](Practitioner-Review.md)
+
+## 📦 Publishing and Releases
+
+- [Asset Naming Convention](Asset-Naming-Convention.md)
+- [Release Versioning](Release-Versioning.md)
+- [Release Package Structure](Release-Package-Structure.md)
+- [Public Release Checklist](Public-Release-Checklist.md)
+- [GitHub and Kaggle Publishing](GitHub-and-Kaggle-Publishing.md)
+- [Kaggle Dataset Setup](Kaggle-Dataset-Setup.md)
+
+## 🗺️ Planning and Support
+
+- [Roadmap](Roadmap.md)
+- [Contributing](Contributing.md)
+- [Glossary](Glossary.md)
+- [FAQ](FAQ.md)
+
+---
+
+For the complete categorized navigation, use [`_Sidebar.md`](_Sidebar.md).
