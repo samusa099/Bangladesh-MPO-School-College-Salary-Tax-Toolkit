@@ -17,11 +17,109 @@ permissions:
   contents: read
 
 jobs:
+  python-orchestrator:
+    name: Python Maintenance Orchestrator
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    outputs:
+      changed_files: ${{ steps.plan.outputs.changed_files }}
+      run_integrity: ${{ steps.plan.outputs.run_integrity }}
+      run_package_labeler: ${{ steps.plan.outputs.run_package_labeler }}
+      run_todo_tracker: ${{ steps.plan.outputs.run_todo_tracker }}
+      run_verify_changed_files: ${{ steps.plan.outputs.run_verify_changed_files }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Build maintenance execution plan
+        id: plan
+        shell: python
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+          BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          import os
+          import pathlib
+          import subprocess
+
+          event = os.environ.get("EVENT_NAME", "")
+          base_ref = os.environ.get("BASE_REF", "")
+          before_sha = os.environ.get("BEFORE_SHA", "")
+
+          def git(*args: str) -> str:
+              return subprocess.check_output(
+                  ["git", *args], text=True, stderr=subprocess.DEVNULL
+              ).strip()
+
+          if event == "pull_request" and base_ref:
+              changed = git("diff", "--name-only", f"origin/{base_ref}...HEAD").splitlines()
+          elif event == "push" and before_sha and set(before_sha) != {"0"}:
+              changed = git("diff", "--name-only", before_sha, "HEAD").splitlines()
+          elif event == "push":
+              changed = git("diff", "--name-only", "HEAD^", "HEAD").splitlines()
+          else:
+              changed = git("ls-files").splitlines()
+
+          changed = sorted({path for path in changed if path})
+          source_suffixes = {
+              ".py", ".sh", ".ps1", ".js", ".jsx", ".ts", ".tsx",
+              ".yml", ".yaml", ".md", ".txt", ".toml", ".json"
+          }
+          source_changed = any(pathlib.Path(path).suffix.lower() in source_suffixes for path in changed)
+          js_workspace = any(
+              pathlib.Path(name).exists()
+              for name in ("package.json", "pnpm-workspace.yaml", "lerna.json", "yarn.lock")
+          )
+
+          run_package_labeler = event == "pull_request" and js_workspace
+          run_todo_tracker = event in {"workflow_dispatch", "schedule"} or (
+              event == "push" and source_changed
+          )
+
+          outputs = {
+              "changed_files": " ".join(changed),
+              "run_integrity": "true",
+              "run_package_labeler": str(run_package_labeler).lower(),
+              "run_todo_tracker": str(run_todo_tracker).lower(),
+              "run_verify_changed_files": "true",
+          }
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              for key, value in outputs.items():
+                  output.write(f"{key}={value}\n")
+
+          print("Python maintenance plan")
+          print(f"event={event}")
+          print(f"changed_files={len(changed)}")
+          print(f"js_workspace={js_workspace}")
+          print(f"source_changed={source_changed}")
+          print(f"run_package_labeler={run_package_labeler}")
+          print(f"run_todo_tracker={run_todo_tracker}")
+
+      - name: Publish execution plan
+        shell: bash
+        run: |
+          {
+            echo "## Python maintenance execution plan"
+            echo
+            echo "| Employee | Direction |"
+            echo "|---|---|"
+            echo "| Repository integrity | ${{ steps.plan.outputs.run_integrity }} |"
+            echo "| Package labeler | ${{ steps.plan.outputs.run_package_labeler }} |"
+            echo "| TODO tracker | ${{ steps.plan.outputs.run_todo_tracker }} |"
+            echo "| Verify changed files | ${{ steps.plan.outputs.run_verify_changed_files }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
   repository-integrity:
-    name: Repository Integrity
+    name: Employee — Repository Integrity
+    needs: python-orchestrator
+    if: needs.python-orchestrator.outputs.run_integrity == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 5
-
     steps:
       - name: Check out repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -32,7 +130,6 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-
           invalid_files="$({
             find excel assets releases -type f 2>/dev/null || true
           } | grep -Ei '(^|[/_. -])(final|new|copy|latest|updated)([/_. -]|$)' || true)"
@@ -47,11 +144,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-
           invalid_paths="$(
-            git ls-files \
-              | grep -E '(^|/)[^/]*\([0-9]+\)[^/]*$' \
-              || true
+            git ls-files | grep -E '(^|/)[^/]*\([0-9]+\)[^/]*$' || true
           )"
 
           if [[ -n "$invalid_paths" ]]; then
@@ -60,50 +154,105 @@ jobs:
             exit 1
           fi
 
-      - name: Verify clean working tree
-        shell: bash
-        run: |
-          set -euo pipefail
-          git diff --exit-code
-          git diff --cached --exit-code
-
-  todo-audit:
-    name: TODO Audit
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+  package-labeler:
+    name: Employee — Pull Request Package Labeler
+    needs: python-orchestrator
+    if: needs.python-orchestrator.outputs.run_package_labeler == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 3
-
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     steps:
       - name: Check out repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
 
-      - name: Report actionable TODO comments
+      - name: Pull Request Package Labeler
+        uses: csi-lk/package-labeler@9d0690f14094b67545af97aeb3d1140e6ba1283a # v1.0.1
+
+  todo-tracker:
+    name: Employee — TODO Issue Tracker
+    needs: python-orchestrator
+    if: needs.python-orchestrator.outputs.run_todo_tracker == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Track TODO Action
+        uses: ribtoks/tdg-github-action@7cc4b6643e790dde39ac8bf2cfc8c08c660afbb2 # v0.4.17-beta
+        with:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+          REF: ${{ github.ref }}
+          LABEL: todo-comment
+          EXTENDED_LABELS: true
+          CLOSE_ON_SAME_BRANCH: true
+          ADD_LIMIT: 10
+          CLOSE_LIMIT: 10
+          INCLUDE_PATTERN: '\.(py|sh|ps1|js|jsx|ts|tsx|yml|yaml|md|txt|toml|json)$'
+          EXCLUDE_PATTERN: '(node_modules|vendor|dist|build|\.git|excel|assets|releases|data)/'
+
+  verify-changed-files:
+    name: Employee — Verify Changed Files
+    needs:
+      - python-orchestrator
+      - repository-integrity
+      - package-labeler
+      - todo-tracker
+    if: always() && needs.python-orchestrator.outputs.run_verify_changed_files == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify Changed Files action
+        id: verify
+        uses: tj-actions/verify-changed-files@a1c6acee9df209257a246f2cc6ae8cb6581c1edf # v20.0.4
+        with:
+          files: '**/*'
+
+      - name: Fail on unexpected working-tree changes
+        if: steps.verify.outputs.files_changed == 'true'
+        env:
+          CHANGED_FILES: ${{ steps.verify.outputs.changed_files }}
         shell: bash
         run: |
-          set -euo pipefail
+          echo "::error::Unexpected uncommitted changes: $CHANGED_FILES"
+          exit 1
 
-          matches="$(
-            git grep -nEI \
-              '(TODO|FIXME|BUG|HACK):[[:space:]].{10,}' \
-              -- \
-              '*.py' '*.sh' '*.ps1' '*.js' '*.ts' \
-              '*.yml' '*.yaml' \
-              ':!docs/**' \
-              ':!wiki/**' \
-              || true
-          )"
+      - name: Confirm employee outcomes
+        shell: python
+        env:
+          INTEGRITY_RESULT: ${{ needs.repository-integrity.result }}
+          LABELER_RESULT: ${{ needs.package-labeler.result }}
+          TODO_RESULT: ${{ needs.todo-tracker.result }}
+        run: |
+          import os
+          import sys
 
-          if [[ -z "$matches" ]]; then
-            echo "No actionable TODO comments found."
-            exit 0
-          fi
-
-          {
-            echo "## TODO audit"
-            echo
-            echo '```text'
-            printf '%s\n' "$matches"
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
+          results = {
+              "repository-integrity": os.environ["INTEGRITY_RESULT"],
+              "package-labeler": os.environ["LABELER_RESULT"],
+              "todo-tracker": os.environ["TODO_RESULT"],
+          }
+          failed = {name: result for name, result in results.items() if result == "failure"}
+          print(results)
+          if failed:
+              print(f"Employee failures detected: {failed}")
+              sys.exit(1)
