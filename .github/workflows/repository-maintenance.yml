@@ -1,51 +1,109 @@
 name: Repository Maintenance
+
 on:
   pull_request:
   push:
-    branches: [main, master]
+    branches:
+      - main
   workflow_dispatch:
+  schedule:
+    - cron: "23 3 * * 1"
+
 concurrency:
-  group: repository-maintenance-${{ github.ref }}
+  group: repository-maintenance-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
+
 permissions:
   contents: read
+
 jobs:
-  package-labeler:
-    if: github.event_name == 'pull_request'
+  repository-integrity:
+    name: Repository Integrity
     runs-on: ubuntu-latest
-    permissions: {contents: read, pull-requests: write, issues: write}
+    timeout-minutes: 5
+
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - id: workspace
-        shell: bash
-        run: 'if [[ -f package.json || -f pnpm-workspace.yaml || -f lerna.json || -f yarn.lock ]]; then echo "available=true" >> "$GITHUB_OUTPUT"; else echo "available=false" >> "$GITHUB_OUTPUT"; fi'
-      - name: Pull Request Package Labeler
-        if: steps.workspace.outputs.available == 'true'
-        uses: csi-lk/package-labeler@9d0690f14094b67545af97aeb3d1140e6ba1283a # v1.0.1
-  todo-tracker:
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    permissions: {contents: read, issues: write}
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with: {fetch-depth: 0}
-      - name: Track TODO Action
-        uses: ribtoks/tdg-github-action@7cc4b6643e790dde39ac8bf2cfc8c08c660afbb2 # v0.4.17-beta
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO: ${{ github.repository }}
-          SHA: ${{ github.sha }}
-          REF: ${{ github.ref }}
-          LABEL: todo-comment
-          EXTENDED_LABELS: true
-          CLOSE_ON_SAME_BRANCH: true
-          ADD_LIMIT: 10
-          CLOSE_LIMIT: 10
-          EXCLUDE_PATTERN: '(node_modules|vendor|dist|build|\.git)/'
-      - name: Verify Changed files
-        id: verify
-        uses: tj-actions/verify-changed-files@a1c6acee9df209257a246f2cc6ae8cb6581c1edf # v20.0.4
-        with: {files: '**/*'}
-      - if: steps.verify.outputs.files_changed == 'true'
-        env: {CHANGED_FILES: '${{ steps.verify.outputs.changed_files }}'}
-        run: 'echo "Unexpected uncommitted changes: $CHANGED_FILES"; exit 1'
+          persist-credentials: false
+
+      - name: Reject temporary release filenames
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          invalid_files="$({
+            find excel assets releases -type f 2>/dev/null || true
+          } | grep -Ei '(^|[/_. -])(final|new|copy|latest|updated)([/_. -]|$)' || true)"
+
+          if [[ -n "$invalid_files" ]]; then
+            echo "::error::Temporary or ambiguous release asset filenames detected:"
+            printf '%s\n' "$invalid_files"
+            exit 1
+          fi
+
+      - name: Validate tracked filenames
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          invalid_paths="$(
+            git ls-files \
+              | grep -E '(^|/)[^/]*\([0-9]+\)[^/]*$' \
+              || true
+          )"
+
+          if [[ -n "$invalid_paths" ]]; then
+            echo "::error::Duplicate-style filenames detected:"
+            printf '%s\n' "$invalid_paths"
+            exit 1
+          fi
+
+      - name: Verify clean working tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code
+          git diff --cached --exit-code
+
+  todo-audit:
+    name: TODO Audit
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Report actionable TODO comments
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          matches="$(
+            git grep -nEI \
+              '(TODO|FIXME|BUG|HACK):[[:space:]].{10,}' \
+              -- \
+              '*.py' '*.sh' '*.ps1' '*.js' '*.ts' \
+              '*.yml' '*.yaml' \
+              ':!docs/**' \
+              ':!wiki/**' \
+              || true
+          )"
+
+          if [[ -z "$matches" ]]; then
+            echo "No actionable TODO comments found."
+            exit 0
+          fi
+
+          {
+            echo "## TODO audit"
+            echo
+            echo '```text'
+            printf '%s\n' "$matches"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
