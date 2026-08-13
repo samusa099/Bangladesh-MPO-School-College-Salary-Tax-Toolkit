@@ -14,6 +14,7 @@
 <p align="center">
   <a href="#-project-overview">Overview</a> ·
   <a href="#-workbook-modules">Workbook</a> ·
+  <a href="#-repository-architecture">Architecture</a> ·
   <a href="#-repository-structure">Structure</a> ·
   <a href="data/csv/README.md">CSV Layer</a> ·
   <a href="docs/wiki/Home.md">Wiki Source</a> ·
@@ -98,18 +99,26 @@ Female status and age 65+ are not added together. The workbook treats them as th
 
 ## 🧱 Repository architecture
 
-```text
-Verified sources and structured reference records
-                    ↓
-        Shared calculation-engine design
-                    ↓
-           School and College rule pack
-                    ↓
-       Institution-specific Excel workbook
-                    ↓
-     CSV exports, validation and reporting
-                    ↓
-      GitHub release and Kaggle package
+```mermaid
+flowchart LR
+    A["Verified Sources<br/>NBR · MPO · Gazette"] --> B["Structured Reference Layer<br/>Rules · Dictionaries · CSV"]
+    B --> C["Shared Calculation Engine<br/>Excel formulas"]
+    C --> D["School & College Rule Pack"]
+    D --> E["Excel Workbook<br/>Salary · Tax · Payslip · Dashboard"]
+    E --> F["Validation Layer<br/>Test cases · QA · Security"]
+    F --> G["Distribution<br/>GitHub Release · Kaggle Package"]
+
+    classDef source fill:#e8f5e9,stroke:#1b5e20,color:#1b5e20;
+    classDef engine fill:#e3f2fd,stroke:#1565c0,color:#0d47a1;
+    classDef product fill:#fff8e1,stroke:#f9a825,color:#6d4c41;
+    classDef quality fill:#f3e5f5,stroke:#7b1fa2,color:#4a148c;
+    classDef release fill:#e0f2f1,stroke:#00796b,color:#004d40;
+
+    class A,B source;
+    class C,D engine;
+    class E product;
+    class F quality;
+    class G release;
 ```
 
 GitHub is the **engineering workspace**. Kaggle is the **curated distribution workspace**. The GitHub Wiki is a **published copy** of the authoritative Markdown under `docs/wiki/`.
@@ -201,6 +210,41 @@ Those subjects require separate packages and independently verified rule sets.
 
 This workbook is an educational planning tool. It is not an official MPO bill, tax assessment, legal opinion or substitute for professional review.
 
-## 👤 Author
+---
 
-Maintained by **Musa** as a data analytics and Excel automation portfolio project for Bangladesh payroll and tax workflows.
+## 👤 Author & Maintainer
+
+<div align="center">
+
+### **Musa**
+
+**Data Analytics · Excel Automation · Bangladesh Payroll & Tax Workflows**
+
+*Research · Workbook Architecture · Validation · Documentation · Release Maintenance*
+
+</div>
+
+| Profile | Details |
+|---|---|
+| **Maintainer** | **Musa** |
+| **Portfolio focus** | Data analytics, Excel automation, payroll and tax workflow design |
+| **Project scope** | Bangladesh MPO School & College salary and individual-tax tooling |
+| **Project role** | Research, workbook design, validation, documentation and release maintenance |
+
+> Built and maintained as a portfolio-grade, open-source project focused on making Bangladesh payroll and tax workflows more structured, reviewable and reusable for learners, practitioners and spreadsheet users.
+
+## 🤝 Project governance
+
+<p align="center">
+  <a href="CODE_OF_CONDUCT.md"><strong>Code of Conduct</strong></a>
+  &nbsp;·&nbsp;
+  <a href="LICENSE"><strong>License</strong></a>
+  &nbsp;·&nbsp;
+  <a href="LICENSE-CODE"><strong>MIT License</strong></a>
+  &nbsp;·&nbsp;
+  <a href="SECURITY.md"><strong>Security</strong></a>
+</p>
+
+<p align="center">
+  <sub>Open-source portfolio project maintained for Bangladesh payroll, tax, Excel automation and data-learning workflows.</sub>
+</p>
