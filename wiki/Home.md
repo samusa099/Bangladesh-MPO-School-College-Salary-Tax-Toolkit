@@ -2,22 +2,20 @@
 
 # 📘 Bangladesh MPO School & College Salary Tax Toolkit
 
-### Wiki and implementation guide
+**Tax Year 2026–27 · Microsoft Excel · School & College MPO · Beta · v0.1.3**
 
-**Tax Year 2026–27 · Microsoft Excel · School & College MPO · Beta**
-
-[Getting Started](Getting-Started.md) · [Workbook Guide](Workbook-Sheet-Guide.md) · [Formula Methodology](Formula-Methodology.md) · [Validation](Validation-and-Release-Gates.md)
+[Project Status](Project-Status.md) · [Getting Started](Getting-Started.md) · [Workbook Guide](Workbook-Sheet-Guide.md) · [Formula Methodology](Formula-Methodology.md) · [Validation](Validation-and-Release-Gates.md)
 
 </div>
 
 ---
 
 > [!IMPORTANT]
-> This is an open-source planning and research toolkit. It is not an official MPO salary bill, certified payroll system, tax-return filing service, or substitute for legal and professional advice.
+> Open-source planning and research toolkit. It is not an official MPO salary bill or a substitute for professional review.
 
 ## 🎯 Project Purpose
 
-The toolkit converts School and College MPO salary rules, taxpayer-category thresholds, deductions, allowances, and annual tax logic into a transparent Excel workflow that can be reviewed, tested, and improved.
+The toolkit converts Bangladesh School & College MPO salary and individual-tax rules into a transparent Excel workflow that can be reviewed, tested and improved.
 
 ## 📦 Current Package
 
@@ -25,67 +23,64 @@ The toolkit converts School and College MPO salary rules, taxpayer-category thre
 |:--|:--|
 | Scope | MPO School & College |
 | Tax year | **2026–27** |
-| Release line | `v0.1.x` |
+| Release line | **v0.1.3** |
 | Status | **Beta** |
 | Main workbook | `excel/school_college/MPO_School_College_Salary_Tax_BD_TY2026_27.xlsx` |
 | Formula policy | Excel 2019-compatible core formulas |
 | Macro policy | No VBA in v1 |
-
-## 🧭 Wiki Navigation
-
-| Area | Page | Use it for |
-|:--|:--|:--|
-| Start | [Getting Started](Getting-Started.md) | Open the workbook and enter data safely |
-| Workbook | [Workbook Sheet Guide](Workbook-Sheet-Guide.md) | Understand every worksheet |
-| Tax | [Taxpayer Categories](Taxpayer-Categories.md) | Review category thresholds and selection logic |
-| Calculations | [Formula Methodology](Formula-Methodology.md) | Trace salary and tax formulas |
-| Quality | [Validation and Release Gates](Validation-and-Release-Gates.md) | Understand Beta and Verified criteria |
-| Publishing | [GitHub and Kaggle Publishing](GitHub-and-Kaggle-Publishing.md) | Prepare engineering and distribution packages |
-| Assets | [Asset Naming Convention](Asset-Naming-Convention.md) | Apply stable release filenames |
-| Planning | [Roadmap](Roadmap.md) | Review planned releases and sector expansion |
-| Help | [FAQ](FAQ.md) | Resolve common questions |
-
-## 🏗️ Architecture
-
-```text
-Shared calculation engine
-        ↓
-School & College rule pack
-        ↓
-Tax-year-specific workbook
-        ↓
-Validation, reporting and release package
-```
-
-> [!NOTE]
-> Madrasa, Ebtedayi, and Technical or Vocational education require separate authority documents, rule packs, and workbooks.
+| Last status review | **2026-08-14** |
 
 ## ✅ Current Capabilities
 
 - Monthly and annual salary calculations
 - Taxpayer-category comparison
 - Progressive annual tax estimate
-- Income, expense, and savings analysis
+- Income, expense and savings analysis
 - Dashboard and printable payslip views
-- Source register, data dictionary, and test cases
+- Source register, data dictionary and validation assets
 - GitHub and Kaggle publishing structure
+- v0.1.3 workbook visual-experience package
 
-## 🚦Release Status
+## 🚦 Release Status
 
 | Area | Status |
 |:--|:--:|
 | Workbook architecture | ✅ Implemented |
 | Core salary flow | ✅ Implemented |
 | Taxpayer categories | ✅ Implemented |
+| Workbook UX / v0.1.3 package | ✅ Implemented |
 | Source extraction | 🟡 In progress |
-| Official salary reconciliation | ⏳ Pending |
+| Official salary reconciliation | 🟡 In progress |
+| Deterministic formula validation | 🟡 In progress |
 | Legal and practitioner review | ⏳ Pending |
 | Verified release | ⏳ Pending |
+
+> [!NOTE]
+> Official salary reconciliation has moved from **Pending** to **In progress** because pilot comparison work has started. The release gate remains open until at least 10 anonymized official salary rows reconcile and unresolved differences are documented.
+
+See **[Project Status](Project-Status.md)** for dated evidence, remaining release gates and the weekly review rule.
+
+## 🏗️ Architecture
+
+```text
+Verified sources
+      ↓
+School & College rule pack
+      ↓
+Excel calculation engine
+      ↓
+Validation and reconciliation
+      ↓
+Beta / Verified release
+```
+
+> [!NOTE]
+> Madrasa, Ebtedayi, and Technical or Vocational education require separate rule packs and verification. Experimental sector work does not change the School & College release status.
 
 ---
 
 <div align="center">
 
-**Start with → [Getting Started](Getting-Started.md)**
+**Next weekly status review: 2026-08-21**
 
 </div>
