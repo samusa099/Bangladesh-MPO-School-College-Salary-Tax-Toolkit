@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
-"""Audit saved XLSX formulas, cached errors, and external workbook links.
+"""Audit saved XLSX archive, formulas, cached errors, and external links.
 
-This check is intentionally dependency-free so it can run in GitHub Actions with
-Python's standard library only. It validates saved workbook structure/reference
-integrity; it does not replace recalculation in Excel or independent business-rule
-validation.
+Dependency-free by design. This validates the saved OOXML package and formula /
+reference integrity. It does not recalculate formulas or prove business rules.
 """
 
 from __future__ import annotations
@@ -26,25 +24,27 @@ def qname(namespace: str, tag: str) -> str:
 
 
 def parse_xml(archive: zipfile.ZipFile, member: str) -> ET.Element:
-    """Parse one XML part and report exact ZIP metadata when member reads fail."""
-    info = archive.getinfo(member)
-    try:
-        payload = archive.read(member)
-    except (OSError, NotImplementedError, RuntimeError, zipfile.BadZipFile) as exc:
-        archive_path = Path(archive.filename) if archive.filename else None
-        archive_bytes = archive_path.stat().st_size if archive_path else -1
-        raise RuntimeError(
-            "Unable to read XLSX member "
-            f"{member!r}: {type(exc).__name__}: {exc}; "
-            f"compress_type={info.compress_type}; flag_bits={info.flag_bits}; "
-            f"file_size={info.file_size}; compress_size={info.compress_size}; "
-            f"header_offset={info.header_offset}; archive_size={archive_bytes}"
-        ) from exc
-    return ET.fromstring(payload)
+    return ET.fromstring(archive.read(member))
+
+
+def invalid_member_offsets(archive: zipfile.ZipFile, archive_size: int) -> list[str]:
+    findings: list[str] = []
+    for info in archive.infolist():
+        # A local file header must begin inside the physical archive. A negative
+        # offset is strong evidence that the leading bytes of the ZIP/XLSX were
+        # truncated while the trailing central directory survived.
+        if info.header_offset < 0 or info.header_offset >= archive_size:
+            findings.append(
+                "Invalid XLSX ZIP local-header offset: "
+                f"member={info.filename!r}; header_offset={info.header_offset}; "
+                f"archive_size={archive_size}; file_size={info.file_size}; "
+                f"compress_size={info.compress_size}. The XLSX package is truncated or corrupt."
+            )
+    return findings
 
 
 def audit_workbook(path: Path) -> list[str]:
-    errors: list[str] = []
+    findings: list[str] = []
     formula_count = 0
     cached_error_count = 0
 
@@ -52,15 +52,22 @@ def audit_workbook(path: Path) -> list[str]:
         return [f"Missing workbook: {path}"]
 
     try:
+        archive_size = path.stat().st_size
         with zipfile.ZipFile(path) as archive:
             names = set(archive.namelist())
 
             if "xl/workbook.xml" not in names:
                 return [f"Invalid XLSX (missing xl/workbook.xml): {path}"]
 
+            offset_findings = invalid_member_offsets(archive, archive_size)
+            if offset_findings:
+                # Do not attempt XML/formula analysis on a physically inconsistent
+                # package; member reads can fail or return misleading results.
+                return offset_findings
+
             external_parts = sorted(name for name in names if name.startswith("xl/externalLinks/"))
             if external_parts:
-                errors.append(
+                findings.append(
                     f"External workbook link parts found in {path}: {', '.join(external_parts)}"
                 )
 
@@ -72,24 +79,22 @@ def audit_workbook(path: Path) -> list[str]:
                     rel_type = rel.attrib.get("Type", "")
                     target = rel.attrib.get("Target", "")
                     if target_mode.lower() == "external" or "externalLink" in rel_type:
-                        errors.append(
+                        findings.append(
                             f"External workbook relationship in {path}: {target or rel_type}"
                         )
 
             workbook_root = parse_xml(archive, "xl/workbook.xml")
-            for defined_name in workbook_root.findall(
-                f".//{qname(MAIN_NS, 'definedName')}"
-            ):
+            for defined_name in workbook_root.findall(f".//{qname(MAIN_NS, 'definedName')}"):
                 text = defined_name.text or ""
                 for token in ERROR_TOKENS:
                     if token in text:
                         name = defined_name.attrib.get("name", "<unnamed>")
-                        errors.append(
+                        findings.append(
                             f"Broken defined name {name!r} in {path}: contains {token}"
                         )
                 if EXTERNAL_FORMULA_REF.search(text):
                     name = defined_name.attrib.get("name", "<unnamed>")
-                    errors.append(
+                    findings.append(
                         f"External workbook reference in defined name {name!r} in {path}"
                     )
 
@@ -111,35 +116,33 @@ def audit_workbook(path: Path) -> list[str]:
                         formula_text = formula.text or ""
                         for token in ERROR_TOKENS:
                             if token in formula_text:
-                                errors.append(
+                                findings.append(
                                     f"Broken formula in {path}:{member}:{address}: contains {token}"
                                 )
                         if EXTERNAL_FORMULA_REF.search(formula_text):
-                            errors.append(
+                            findings.append(
                                 f"External workbook formula reference in {path}:{member}:{address}"
                             )
 
                     if cell.attrib.get("t") == "e":
                         cached_error_count += 1
                         cached_value = (value.text if value is not None else "") or "<empty>"
-                        errors.append(
+                        findings.append(
                             f"Saved Excel error in {path}:{member}:{address}: {cached_value}"
                         )
 
-    except zipfile.BadZipFile:
-        return [f"Unreadable XLSX ZIP container: {path}"]
+    except zipfile.BadZipFile as exc:
+        return [f"Unreadable XLSX ZIP container: {path}: {exc}"]
     except ET.ParseError as exc:
         return [f"Invalid XLSX XML in {path}: {exc}"]
-    except RuntimeError as exc:
-        return [f"Workbook member read failure in {path}: {exc}"]
-    except OSError as exc:
-        return [f"Unable to open workbook {path}: {type(exc).__name__}: {exc}"]
+    except (OSError, RuntimeError, NotImplementedError) as exc:
+        return [f"Unable to inspect workbook {path}: {type(exc).__name__}: {exc}"]
 
     print(
         f"AUDIT: {path} | formulas={formula_count} | "
-        f"saved_error_cells={cached_error_count} | findings={len(errors)}"
+        f"saved_error_cells={cached_error_count} | findings={len(findings)}"
     )
-    return errors
+    return findings
 
 
 def main(argv: list[str]) -> int:
@@ -154,10 +157,10 @@ def main(argv: list[str]) -> int:
     if findings:
         for finding in findings:
             print(f"::error::{finding}")
-        print(f"FAILED: {len(findings)} workbook formula/reference finding(s).")
+        print(f"FAILED: {len(findings)} workbook archive/formula/reference finding(s).")
         return 1
 
-    print("PASS: saved workbook formulas/references contain no detected errors or external links.")
+    print("PASS: XLSX package and saved workbook formulas/references passed the automated audit.")
     print("NOTE: this check does not recalculate formulas or prove business-rule correctness.")
     return 0
 
