@@ -32,6 +32,11 @@ jobs:
       - name: Validate repository and workbook files
         run: python3 .github/scripts/repository_policy.py
 
+      - name: Audit workbook formulas and references
+        run: >-
+          python3 .github/scripts/workbook_formula_audit.py
+          excel/school_college/MPO_School_College_Salary_Tax_BD_TY2026_27.xlsx
+
       - name: Scan committed secrets
         env:
           VERSION: 8.30.1
