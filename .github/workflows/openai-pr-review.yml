@@ -1,4 +1,4 @@
-name: OpenAI PR Review
+name: GitHub Models PR Review
 
 on:
   pull_request_target:
@@ -8,14 +8,15 @@ permissions:
   contents: read
   issues: write
   pull-requests: read
+  models: read
 
 concurrency:
-  group: openai-pr-review-${{ github.event.pull_request.number }}
+  group: github-models-pr-review-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
   review:
-    name: Review PR with OpenAI
+    name: Review PR with GitHub Models
     if: >-
       github.event.pull_request.draft == false &&
       github.event.pull_request.head.repo.full_name == github.repository &&
@@ -24,26 +25,7 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - name: Check OpenAI credential
-        id: preflight
-        shell: bash
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: |
-          set -euo pipefail
-          if [[ -n "${OPENAI_API_KEY}" ]]; then
-            echo "configured=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "configured=false" >> "$GITHUB_OUTPUT"
-            {
-              echo "## OpenAI PR Review"
-              echo
-              echo "Skipped: repository secret \`OPENAI_API_KEY\` is not configured."
-            } >> "$GITHUB_STEP_SUMMARY"
-          fi
-
       - name: Fetch pull request diff
-        if: steps.preflight.outputs.configured == 'true'
         id: diff
         shell: bash
         env:
@@ -84,19 +66,16 @@ jobs:
             echo "has_diff=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Ask OpenAI for review
-        if: >-
-          steps.preflight.outputs.configured == 'true' &&
-          steps.diff.outputs.has_diff == 'true'
-        id: openai
+      - name: Ask GitHub Models for review
+        if: steps.diff.outputs.has_diff == 'true'
+        id: model
         shell: bash
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
           PR_TITLE: ${{ github.event.pull_request.title }}
           PR_BODY: ${{ github.event.pull_request.body }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           REPOSITORY: ${{ github.repository }}
-          ACTOR_ID: ${{ github.actor_id }}
         run: |
           set -euo pipefail
 
@@ -138,19 +117,18 @@ jobs:
             printf '%s\n' '--- END UNTRUSTED PR DIFF ---'
           } > model-input.txt
 
-          safety_identifier="github_actor_${ACTOR_ID}"
-
           jq -n \
-            --arg model "gpt-5-mini" \
+            --arg model "openai/gpt-4o" \
             --arg instructions "$instructions" \
             --rawfile input model-input.txt \
-            --arg safety_identifier "$safety_identifier" \
             '{
               model: $model,
-              instructions: $instructions,
-              input: $input,
-              max_output_tokens: 1800,
-              safety_identifier: $safety_identifier
+              messages: [
+                {role: "system", content: $instructions},
+                {role: "user", content: $input}
+              ],
+              temperature: 0.1,
+              max_tokens: 1800
             }' > request.json
 
           http_code="$(
@@ -158,47 +136,40 @@ jobs:
               --output response.json \
               --write-out '%{http_code}' \
               --request POST \
-              --header "Authorization: Bearer ${OPENAI_API_KEY}" \
+              --header "Accept: application/vnd.github+json" \
+              --header "Authorization: Bearer ${GITHUB_TOKEN}" \
               --header "Content-Type: application/json" \
               --data-binary @request.json \
-              https://api.openai.com/v1/responses
+              https://models.github.ai/inference/chat/completions
           )"
 
           if [[ ! "$http_code" =~ ^2 ]]; then
-            echo "::error::OpenAI API request failed with HTTP ${http_code}."
-            jq -r '.error.message // "Unknown OpenAI API error"' response.json >&2 || true
+            echo "::error::GitHub Models request failed with HTTP ${http_code}."
+            jq -r '.error.message // .message // "Unknown GitHub Models error"' response.json >&2 || true
             exit 1
           fi
 
-          jq -r '
-            [
-              .output[]?
-              | select(.type == "message")
-              | .content[]?
-              | select(.type == "output_text")
-              | .text
-            ]
-            | join("\n")
-          ' response.json > review.md
+          jq -r '.choices[0].message.content // empty' response.json > review.md
 
           if [[ ! -s review.md ]]; then
-            echo "::error::OpenAI returned no review text."
+            echo "::error::GitHub Models returned no review text."
             exit 1
           fi
 
           {
-            echo "## OpenAI PR Review"
+            echo "## GitHub Models PR Review"
             echo
-            echo "Model: \`gpt-5-mini\`"
+            echo "Model: \`openai/gpt-4o\`"
+            echo
+            echo "Authentication: repository-scoped \`GITHUB_TOKEN\` (no separate OpenAI API key)."
             echo
             echo "Review generated successfully."
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publish or update PR review comment
         if: >-
-          steps.preflight.outputs.configured == 'true' &&
           steps.diff.outputs.has_diff == 'true' &&
-          steps.openai.outcome == 'success'
+          steps.model.outcome == 'success'
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -207,12 +178,12 @@ jobs:
         run: |
           set -euo pipefail
 
-          marker='<!-- openai-pr-review -->'
+          marker='<!-- github-models-pr-review -->'
           {
             printf '%s\n\n' "$marker"
             cat review.md
             printf '\n\n---\n'
-            printf '_Automated review by OpenAI `gpt-5-mini`. Treat this as reviewer assistance, not a substitute for human validation._\n'
+            printf '_Automated reviewer assistance via GitHub Models (`openai/gpt-4o`). Human validation remains authoritative._\n'
           } > comment.md
 
           comments_url="https://api.github.com/repos/${REPOSITORY}/issues/${PR_NUMBER}/comments"
@@ -247,7 +218,7 @@ jobs:
               "https://api.github.com/repos/${REPOSITORY}/issues/comments/${comment_id}" \
               -d "$body_json" \
               >/dev/null
-            echo "Updated existing OpenAI review comment." >> "$GITHUB_STEP_SUMMARY"
+            echo "Updated existing GitHub Models review comment." >> "$GITHUB_STEP_SUMMARY"
           else
             curl --fail-with-body --silent --show-error --location \
               --request POST \
@@ -257,5 +228,5 @@ jobs:
               "$comments_url" \
               -d "$body_json" \
               >/dev/null
-            echo "Published OpenAI review comment." >> "$GITHUB_STEP_SUMMARY"
+            echo "Published GitHub Models review comment." >> "$GITHUB_STEP_SUMMARY"
           fi
