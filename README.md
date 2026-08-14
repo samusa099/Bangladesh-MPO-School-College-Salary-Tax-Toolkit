@@ -1,6 +1,5 @@
 <p align="center">
-  < <img width="1768" height="890" alt="ChatGPT Image Aug 13, 2026, 11_10_34 PM" src="https://github.com/user-attachments/assets/a69ef25f-5706-446f-9717-3cd7d8e27528" />
- width="100%">
+  <img width="75%" alt="Bangladesh MPO School & College Salary Tax Toolkit cover" src="https://github.com/user-attachments/assets/a69ef25f-5706-446f-9717-3cd7d8e27528" />
 </p>
 
 # Bangladesh MPO School & College Salary Tax Toolkit
