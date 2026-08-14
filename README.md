@@ -5,12 +5,25 @@
 <h1 align="center">Bangladesh MPO School & College Salary Tax Toolkit</h1>
 
 <p align="center">
+  <a href="#"><img alt="Version" src="https://img.shields.io/badge/Version-v4.0-7C3AED?style=for-the-badge"></a>
   <a href="#"><img alt="Excel Toolkit" src="https://img.shields.io/badge/Excel-Toolkit-107C41?style=for-the-badge&logo=microsoft-excel&logoColor=white"></a>
   <a href="#"><img alt="Bangladesh MPO" src="https://img.shields.io/badge/Bangladesh-MPO-0F766E?style=for-the-badge"></a>
   <a href="#"><img alt="Tax Year" src="https://img.shields.io/badge/Tax%20Year-2026--27-2563EB?style=for-the-badge"></a>
   <a href="#"><img alt="Status" src="https://img.shields.io/badge/Status-Beta-B7791F?style=for-the-badge"></a>
   <a href="../../actions/workflows/portfolio-security.yml"><img alt="Portfolio Security" src="https://img.shields.io/github/actions/workflow/status/samusa099/Bangladesh-MPO-School-College-Salary-Tax-Toolkit/portfolio-security.yml?branch=main&style=for-the-badge&label=Portfolio%20Security"></a>
-  <a href="../../issues"><img alt="Issues" src="https://img.shields.io/github/issues/samusa099/Bangladesh-MPO-School-College-Salary-Tax-Toolkit?style=for-the-badge"></a>
+</p>
+
+<p align="center">
+  <a href="LICENSE-CODE"><img alt="MIT License" src="https://img.shields.io/badge/Code%20License-MIT-22C55E?style=flat-square&logo=opensourceinitiative&logoColor=white"></a>
+  <a href="#"><img alt="Excel 2019" src="https://img.shields.io/badge/Excel-2019%2B-217346?style=flat-square&logo=microsoft-excel&logoColor=white"></a>
+  <a href="#"><img alt="No VBA" src="https://img.shields.io/badge/VBA-Not%20Required-0EA5E9?style=flat-square"></a>
+  <a href="#"><img alt="Open Source" src="https://img.shields.io/badge/Open%20Source-Yes-16A34A?style=flat-square&logo=github"></a>
+  <a href="#"><img alt="Made in Bangladesh" src="https://img.shields.io/badge/Made%20in-Bangladesh-006A4E?style=flat-square"></a>
+  <a href="../../stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/samusa099/Bangladesh-MPO-School-College-Salary-Tax-Toolkit?style=flat-square&logo=github"></a>
+  <a href="../../forks"><img alt="GitHub forks" src="https://img.shields.io/github/forks/samusa099/Bangladesh-MPO-School-College-Salary-Tax-Toolkit?style=flat-square&logo=github"></a>
+  <a href="../../issues"><img alt="Issues" src="https://img.shields.io/github/issues/samusa099/Bangladesh-MPO-School-College-Salary-Tax-Toolkit?style=flat-square&logo=github"></a>
+  <a href="../../commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/samusa099/Bangladesh-MPO-School-College-Salary-Tax-Toolkit?style=flat-square&logo=github"></a>
+  <a href="../../graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/samusa099/Bangladesh-MPO-School-College-Salary-Tax-Toolkit?style=flat-square&logo=github"></a>
 </p>
 
 <p align="center">
@@ -76,7 +89,7 @@
     <tr><td>Product</td><td>Bangladesh MPO Salary & Tax Excel Toolkit</td></tr>
     <tr><td>First package</td><td>MPO School & College Salary and Tax</td></tr>
     <tr><td>Workbook</td><td><code>MPO_School_College_Salary_Tax_BD_TY2026_27.xlsx</code></td></tr>
-    <tr><td>Version</td><td><code>v0.1.2-taxpayer-categories</code></td></tr>
+    <tr><td>Version</td><td><code>v4.0</code></td></tr>
     <tr><td>Status</td><td>Beta</td></tr>
     <tr><td>Macro policy</td><td>No VBA in v1</td></tr>
     <tr><td>Compatibility target</td><td>Excel 2019 core formulas</td></tr>
