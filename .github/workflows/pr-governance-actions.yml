@@ -4,28 +4,103 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
 
-permissions:
-  contents: read
-  pull-requests: write
-  issues: write
-
 concurrency:
-  group: pr-governance-${{ github.repository }}-${{ github.event.pull_request.number }}
+  group: pr-governance-${{ github.repository }}-${{ github.event_name }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
-  checks:
-    name: Governance checks
+  orchestrator:
+    name: Python Governance Orchestrator
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 2
+    permissions:
+      contents: read
+    outputs:
+      reviewers: ${{ steps.plan.outputs.reviewers }}
+      labels: ${{ steps.plan.outputs.labels }}
+      skill_eval: ${{ steps.plan.outputs.skill_eval }}
+      montara: ${{ steps.plan.outputs.montara }}
+    steps:
+      - id: plan
+        name: Build governance execution plan
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          MONTARA_WEBHOOK_URL: ${{ secrets.MONTARA_WEBHOOK_URL }}
+          SKILL_NAME: ${{ vars.SKILL_NAME }}
+          SKILL_PATH: ${{ vars.SKILL_PATH }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import os
+          import urllib.error
+          import urllib.parse
+          import urllib.request
 
+          repo = os.environ["GITHUB_REPOSITORY"]
+          ref = os.environ["HEAD_SHA"]
+          token = os.environ["GH_TOKEN"]
+
+          def exists(path: str) -> bool:
+              path = (path or "").strip().replace("\\", "/")
+              while path.startswith("./"):
+                  path = path[2:]
+              if not path or path.startswith("/") or ".." in path.split("/"):
+                  return False
+              url = f"https://api.github.com/repos/{repo}/contents/{urllib.parse.quote(path, safe='/')}?ref={urllib.parse.quote(ref)}"
+              request = urllib.request.Request(
+                  url,
+                  headers={
+                      "Authorization": f"Bearer {token}",
+                      "Accept": "application/vnd.github+json",
+                      "X-GitHub-Api-Version": "2022-11-28",
+                  },
+              )
+              try:
+                  with urllib.request.urlopen(request, timeout=20):
+                      return True
+              except urllib.error.HTTPError as exc:
+                  if exc.code == 404:
+                      return False
+                  raise
+
+          values = {
+              "reviewers": exists(".reviewers.yaml"),
+              "labels": exists(".github/auto-label.json"),
+              "skill_eval": bool(os.environ.get("ANTHROPIC_API_KEY")) and bool(os.environ.get("SKILL_NAME")) and exists(os.environ.get("SKILL_PATH", "")),
+              "montara": bool(os.environ.get("MONTARA_WEBHOOK_URL")),
+          }
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              for key, value in values.items():
+                  output.write(f"{key}={'true' if value else 'false'}\n")
+
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as summary:
+              summary.write("## Python governance plan\n\n")
+              for key, value in values.items():
+                  summary.write(f"- **{key}**: {'run' if value else 'skip'}\n")
+          PY
+
+  size-check:
+    name: Employee - Changed File Size
+    needs: orchestrator
+    if: needs.orchestrator.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-
+          persist-credentials: false
       - name: Reject changed files larger than 25 MiB
         shell: bash
         env:
@@ -34,63 +109,131 @@ jobs:
           MAX_BYTES: "26214400"
         run: |
           set -euo pipefail
-
           git fetch --no-tags --prune --depth=1 origin "$BASE_SHA" || true
-
           oversized=0
           while IFS= read -r -d '' file; do
             [[ -f "$file" ]] || continue
             size=$(stat -c '%s' -- "$file")
             if (( size > MAX_BYTES )); then
-              printf '::error file=%s::File is %s bytes; maximum allowed size is %s bytes.\n' \
-                "$file" "$size" "$MAX_BYTES"
+              printf '::error file=%s::File is %s bytes; maximum allowed size is %s bytes.\n' "$file" "$size" "$MAX_BYTES"
               oversized=1
             fi
           done < <(git diff --name-only --diff-filter=AM -z "$BASE_SHA" "$HEAD_SHA")
+          (( oversized == 0 ))
 
-          if (( oversized != 0 )); then
-            exit 1
-          fi
-
-      - id: cfg
-        name: Detect optional integrations
-        shell: bash
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          MONTARA_WEBHOOK_URL: ${{ secrets.MONTARA_WEBHOOK_URL }}
-          SKILL_NAME: ${{ vars.SKILL_NAME }}
-          SKILL_PATH: ${{ vars.SKILL_PATH }}
-        run: |
-          set -euo pipefail
-          [[ -f .reviewers.yaml ]] && echo 'reviewers=1' >> "$GITHUB_OUTPUT" || true
-          [[ -f .github/auto-label.json ]] && echo 'labels=1' >> "$GITHUB_OUTPUT" || true
-          [[ -n "$ANTHROPIC_API_KEY" && -n "$SKILL_NAME" && -n "$SKILL_PATH" && -d "$SKILL_PATH" ]] \
-            && echo 'skill_eval=1' >> "$GITHUB_OUTPUT" || true
-          [[ -n "$MONTARA_WEBHOOK_URL" ]] && echo 'montara=1' >> "$GITHUB_OUTPUT" || true
-
+  reviewers:
+    name: Employee - PR Reviewers
+    needs: orchestrator
+    if: needs.orchestrator.outputs.reviewers == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout reviewer configuration
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: PR Reviewers Action
-        if: steps.cfg.outputs.reviewers == '1'
         uses: patricklubach/reviewer-action@08ac0b7c9afeb55739d2a8c6c8180bebf7874cde # v1.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           pr_number: ${{ github.event.pull_request.number }}
 
+  auto-label:
+    name: Employee - Auto Label
+    needs: orchestrator
+    if: needs.orchestrator.outputs.labels == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Checkout label configuration
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Auto Label Action
-        if: steps.cfg.outputs.labels == '1'
         uses: banyan/auto-label@45a96386f4cac601434ed0f34db11c8df2fcac86 # 1.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  skill-eval:
+    name: Employee - Skill Eval
+    needs: orchestrator
+    if: needs.orchestrator.outputs.skill_eval == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Checkout skill content
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Skill Eval
-        if: steps.cfg.outputs.skill_eval == '1'
         uses: skill-bench/skill-eval-action@32cb44e77cf3147ebbe140a953065e0ac89eddb6 # v1.3.0
         with:
           skill-name: ${{ vars.SKILL_NAME }}
           skill-path: ${{ vars.SKILL_PATH }}
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
 
+  montara:
+    name: Employee - Montara CI
+    needs: orchestrator
+    if: needs.orchestrator.outputs.montara == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
       - name: Montara CI
-        if: steps.cfg.outputs.montara == '1'
         uses: montara-io/montara-ci@eca5afc53f2e39c847d187e4bf43b1bef9e1056e # v1.0.20
         with:
           webhookUrl: ${{ secrets.MONTARA_WEBHOOK_URL }}
+
+  governance-result:
+    name: Governance Result
+    if: always()
+    needs: [orchestrator, size-check, reviewers, auto-label, skill-eval, montara]
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions:
+      contents: read
+    steps:
+      - name: Aggregate employee results
+        shell: bash
+        env:
+          ORCHESTRATOR: ${{ needs.orchestrator.result }}
+          SIZE_CHECK: ${{ needs.size-check.result }}
+          REVIEWERS: ${{ needs.reviewers.result }}
+          LABELS: ${{ needs.auto-label.result }}
+          SKILL: ${{ needs.skill-eval.result }}
+          MONTARA: ${{ needs.montara.result }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import os
+          import sys
+          results = {
+              "orchestrator": os.environ["ORCHESTRATOR"],
+              "size-check": os.environ["SIZE_CHECK"],
+              "reviewers": os.environ["REVIEWERS"],
+              "auto-label": os.environ["LABELS"],
+              "skill-eval": os.environ["SKILL"],
+              "montara": os.environ["MONTARA"],
+          }
+          if results["orchestrator"] == "skipped":
+              raise SystemExit(0)
+          bad = {name: result for name, result in results.items() if result not in {"success", "skipped"}}
+          for name, result in results.items():
+              print(f"{name}: {result}")
+          if bad:
+              print(f"Governance employee failure(s): {bad}", file=sys.stderr)
+              raise SystemExit(1)
+          PY
