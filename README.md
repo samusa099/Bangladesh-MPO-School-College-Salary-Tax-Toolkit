@@ -29,6 +29,7 @@
 <p align="center">
   <a href="#-project-overview">Overview</a> ·
   <a href="#-workbook-modules">Workbook</a> ·
+  <a href="#-repository-architecture">Architecture</a> ·
   <a href="#-repository-structure">Structure</a> ·
   <a href="data/csv/README.md">CSV Layer</a> ·
   <a href="docs/wiki/Home.md">Wiki Source</a> ·
@@ -141,19 +142,27 @@
 
 <h2 align="center">🧱 Repository architecture</h2>
 
-<p align="center">
-  <strong>Verified sources and structured reference records</strong><br>
-  ↓<br>
-  Shared calculation-engine design<br>
-  ↓<br>
-  School and College rule pack<br>
-  ↓<br>
-  Institution-specific Excel workbook<br>
-  ↓<br>
-  CSV exports, validation and reporting<br>
-  ↓<br>
-  <strong>GitHub release and Kaggle package</strong>
-</p>
+```mermaid
+flowchart TB
+    A["Verified Sources<br/>NBR · MPO · Gazette"] --> B["Structured Reference Layer<br/>Rules · Dictionaries · CSV"]
+    B --> C["Shared Calculation Engine<br/>Excel formulas"]
+    C --> D["School & College Rule Pack"]
+    D --> E["Excel Workbook<br/>Salary · Tax · Payslip · Dashboard"]
+    E --> F["Validation Layer<br/>Test cases · QA · Security"]
+    F --> G["Distribution<br/>GitHub Release · Kaggle Package"]
+
+    classDef source fill:#e8f5e9,stroke:#1b5e20,color:#1b5e20;
+    classDef engine fill:#e3f2fd,stroke:#1565c0,color:#0d47a1;
+    classDef product fill:#fff8e1,stroke:#f9a825,color:#6d4c41;
+    classDef quality fill:#f3e5f5,stroke:#7b1fa2,color:#4a148c;
+    classDef release fill:#e0f2f1,stroke:#00796b,color:#004d40;
+
+    class A,B source;
+    class C,D engine;
+    class E product;
+    class F quality;
+    class G release;
+```
 
 <p align="center">GitHub is the <strong>engineering workspace</strong>. Kaggle is the <strong>curated distribution workspace</strong>. The GitHub Wiki is a <strong>published copy</strong> of the authoritative Markdown under <code>docs/wiki/</code>.</p>
 
@@ -244,6 +253,43 @@ Those subjects require separate packages and independently verified rule sets.
 
 <p align="center">This workbook is an educational planning tool. It is not an official MPO bill, tax assessment, legal opinion or substitute for professional review.</p>
 
-<h2 align="center">👤 Author</h2>
+---
 
-<p align="center">Maintained by <strong>Musa</strong> as a data analytics and Excel automation portfolio project for Bangladesh payroll and tax workflows.</p>
+<h2 align="center">👤 Author & Maintainer</h2>
+
+<div align="center">
+
+### **Musa**
+
+**Data Analytics · Excel Automation · Bangladesh Payroll & Tax Workflows**
+
+*Research · Spreadsheet Engineering · Validation · Documentation · Release Maintenance*
+
+</div>
+
+<p align="center"><strong>Maintained by Musa</strong> as a data analytics and Excel automation portfolio project focused on making Bangladesh payroll and tax workflows more structured, auditable, reusable and easier to understand.</p>
+
+<table align="center" width="75%">
+  <tbody>
+    <tr><td><strong>Portfolio focus</strong></td><td>Data analytics & Excel automation</td></tr>
+    <tr><td><strong>Domain</strong></td><td>Bangladesh payroll & individual-tax workflows</td></tr>
+    <tr><td><strong>Project contribution</strong></td><td>Research, workbook architecture, validation, documentation & release maintenance</td></tr>
+    <tr><td><strong>Maintainer</strong></td><td><strong>Musa</strong></td></tr>
+  </tbody>
+</table>
+
+<p align="center"><sub>Built as an open-source portfolio project for practical spreadsheet automation, transparent calculation workflows and reusable data-learning resources.</sub></p>
+
+<h2 align="center">🤝 Project governance</h2>
+
+<p align="center">
+  <a href="CODE_OF_CONDUCT.md"><strong>Code of Conduct</strong></a>
+  &nbsp;·&nbsp;
+  <a href="LICENSE"><strong>License</strong></a>
+  &nbsp;·&nbsp;
+  <a href="LICENSE-CODE"><strong>MIT License</strong></a>
+  &nbsp;·&nbsp;
+  <a href="SECURITY.md"><strong>Security</strong></a>
+</p>
+
+<p align="center"><sub>Open-source portfolio project maintained for Bangladesh payroll, tax, Excel automation and data-learning workflows.</sub></p>
