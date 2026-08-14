@@ -27,6 +27,35 @@ def parse_xml(archive: zipfile.ZipFile, member: str) -> ET.Element:
     return ET.fromstring(archive.read(member))
 
 
+def strip_excel_string_literals(expression: str) -> str:
+    """Return an Excel expression with double-quoted string contents removed.
+
+    Excel escapes a literal double quote inside a string as two consecutive
+    double quotes. Masking string literals prevents valid text such as "#N/A"
+    or "[example.xlsx]" from being mistaken for a broken formula/reference.
+    """
+    outside: list[str] = []
+    index = 0
+    in_string = False
+
+    while index < len(expression):
+        char = expression[index]
+        if char == '"':
+            if in_string and index + 1 < len(expression) and expression[index + 1] == '"':
+                index += 2
+                continue
+            in_string = not in_string
+            outside.append(" ")
+            index += 1
+            continue
+
+        if not in_string:
+            outside.append(char)
+        index += 1
+
+    return "".join(outside)
+
+
 def invalid_member_offsets(archive: zipfile.ZipFile, archive_size: int) -> list[str]:
     findings: list[str] = []
     for info in archive.infolist():
@@ -86,13 +115,14 @@ def audit_workbook(path: Path) -> list[str]:
             workbook_root = parse_xml(archive, "xl/workbook.xml")
             for defined_name in workbook_root.findall(f".//{qname(MAIN_NS, 'definedName')}"):
                 text = defined_name.text or ""
+                expression_text = strip_excel_string_literals(text)
                 for token in ERROR_TOKENS:
-                    if token in text:
+                    if token in expression_text:
                         name = defined_name.attrib.get("name", "<unnamed>")
                         findings.append(
                             f"Broken defined name {name!r} in {path}: contains {token}"
                         )
-                if EXTERNAL_FORMULA_REF.search(text):
+                if EXTERNAL_FORMULA_REF.search(expression_text):
                     name = defined_name.attrib.get("name", "<unnamed>")
                     findings.append(
                         f"External workbook reference in defined name {name!r} in {path}"
@@ -114,12 +144,13 @@ def audit_workbook(path: Path) -> list[str]:
                     if formula is not None:
                         formula_count += 1
                         formula_text = formula.text or ""
+                        expression_text = strip_excel_string_literals(formula_text)
                         for token in ERROR_TOKENS:
-                            if token in formula_text:
+                            if token in expression_text:
                                 findings.append(
                                     f"Broken formula in {path}:{member}:{address}: contains {token}"
                                 )
-                        if EXTERNAL_FORMULA_REF.search(formula_text):
+                        if EXTERNAL_FORMULA_REF.search(expression_text):
                             findings.append(
                                 f"External workbook formula reference in {path}:{member}:{address}"
                             )
