@@ -1,16 +1,18 @@
-# Release Notes — v0.1.4 Kaggle Safe Workbook
+# Unreleased Release Candidate — v0.1.4 Kaggle Safe Workbook
+
+> **Status:** Unreleased / preparatory material. The current public product release remains `v0.1.3` until a matching `v0.1.4` Git tag and GitHub Release are published.
 
 ## Summary
 
-Rebuilt the workbook as a Kaggle-safe Excel package so Kaggle Data Explorer displays worksheets in the correct workflow order.
+Prepared a Kaggle-safe Excel package so Kaggle Data Explorer displays worksheets in the correct workflow order.
 
-## Why this release exists
+## Why this candidate exists
 
 Kaggle Data Explorer sorts Excel sheets alphabetically/Unicode-style instead of following the workbook tab order. Bengali-only sheet names such as `আয়কর`, `ইনপুট`, and `১. শুরু` appeared out of the intended workflow order.
 
 ## Main fix
 
-The workbook now uses ASCII-numbered sheet names:
+The candidate workbook uses ASCII-numbered sheet names:
 
 ```text
 01_Start
@@ -68,6 +70,15 @@ Formula error scan completed with no detected:
 #N/A
 ```
 
+## Release gate
+
+Before this candidate may become the public `v0.1.4` release:
+
+- create/publish a `v0.1.4` Git tag on the intended commit;
+- create a matching GitHub Release;
+- update root README, Wiki, changelog, release notes and Kaggle metadata together;
+- complete normal Beta/Verified validation gates.
+
 ## Status
 
-Beta. This workbook is for planning, learning and portfolio demonstration. It must be reviewed against official sources and professional advice before payroll submission, tax filing or financial decision-making.
+Beta candidate. This workbook is for planning, learning and portfolio demonstration. It must be reviewed against official sources and professional advice before payroll submission, tax filing or financial decision-making.

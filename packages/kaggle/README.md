@@ -2,6 +2,16 @@
 
 This directory defines the download-friendly Kaggle package for the Bangladesh MPO School & College Salary and Tax Toolkit.
 
+## Current distribution identity
+
+- **Canonical product release:** `v0.1.3`
+- **Status:** Beta
+- **Tax Year:** 2026–27
+- **Canonical workbook:** `MPO_School_College_Salary_Tax_BD_TY2026_27.xlsx`
+- **Package metadata:** `release-metadata.json`
+
+`v4.0` is a README/design revision only; it is not the product release version.
+
 ## Role
 
 GitHub remains the engineering source of truth. The Kaggle package is a curated distribution layer containing only the files required for end users, reviewers and learners.
@@ -14,10 +24,12 @@ packages/kaggle/
 │   ├── MPO_School_College_Salary_Tax_BD_TY2026_27.xlsx
 │   ├── README.md
 │   ├── RELEASE_NOTES.md
+│   ├── release-metadata.json
 │   ├── LICENSE
 │   ├── data/
 │   │   └── csv/
 │   └── previews/
+├── release-metadata.json
 └── README.md
 ```
 
@@ -25,9 +37,10 @@ packages/kaggle/
 
 Include:
 
-- the verified release-candidate workbook;
+- the current release or clearly labelled release-candidate workbook;
 - project-specific CSV reference exports;
 - release notes and licence;
+- `release-metadata.json` with the canonical product release;
 - stable preview assets;
 - concise usage and disclaimer documentation.
 
@@ -39,6 +52,14 @@ Exclude:
 - source documents that cannot legally be redistributed;
 - personal payroll, tax-return or institutional records;
 - unrelated files from other repositories.
+
+## Version rule
+
+The public GitHub release, Git tag, root README/Wiki and Kaggle/archive metadata must use the same product release identifier.
+
+For the current public package, that identifier is `v0.1.3`.
+
+Future `v0.1.4` material must remain marked **Unreleased** until a matching Git tag and GitHub Release are published.
 
 ## Source relationship
 
