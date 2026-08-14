@@ -14,6 +14,27 @@ on:
         required: false
         default: false
         type: boolean
+  workflow_call:
+    inputs:
+      test_subject:
+        description: Subject passed to the generic/file-generation smoke tests
+        required: false
+        default: Review this repository workflow integration for correctness and security.
+        type: string
+      run_file_generation:
+        description: Run the Dallas Clark file-generation action when its credentials exist
+        required: false
+        default: false
+        type: boolean
+    secrets:
+      OPENAI_API_KEY:
+        required: false
+      OPENAI_API_TOKEN:
+        required: false
+      OPENAI_API_ORGANIZATION_ID:
+        required: false
+      OPENAI_API_PROJECT_ID:
+        required: false
 
 permissions:
   contents: read
