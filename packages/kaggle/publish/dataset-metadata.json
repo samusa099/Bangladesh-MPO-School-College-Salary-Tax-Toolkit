@@ -1,0 +1,11 @@
+{
+  "title": "Bangladesh MPO School & College Salary Tax Toolkit",
+  "id": "samusahr/bangladesh-mpo-school-college-salary-tax-toolkit",
+  "licenses": [
+    {
+      "name": "other"
+    }
+  ],
+  "subtitle": "Excel toolkit for Bangladesh MPO payroll, Tax Year 2026-27 planning, payslip and dashboard workflows",
+  "description": "Beta distribution package containing the School & College Excel workbook, project reference CSV files, validation-scenario catalog, Kaggle starter notebook, metadata and preview assets. This is an educational planning toolkit and not an official payroll, tax-filing or legal service."
+}

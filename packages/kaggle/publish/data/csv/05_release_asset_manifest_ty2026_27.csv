@@ -1,0 +1,15 @@
+asset_order,asset_name,asset_type,source_location,publish_location,required,notes
+1,MPO_School_College_Salary_Tax_BD_TY2026_27.xlsx,Workbook,excel/school_college/,GitHub release and Kaggle package,Yes,Primary Excel calculation product
+2,cover-banner.jpg,Preview asset,assets/previews/,GitHub README and release package,Yes,Stable release naming convention
+3,project-icon.jpg,Preview asset,assets/previews/,Repository and package branding,Yes,Square project identity image
+4,social-preview.jpg,Preview asset,assets/previews/,GitHub social preview,Yes,Repository sharing image
+5,dashboard-preview.jpg,Preview asset,assets/previews/,README and Kaggle package,Yes,Workbook dashboard preview
+6,README.md,Documentation,repository root,Kaggle package,Yes,Project overview and quick start
+7,LICENSE,Governance,repository root,Kaggle package,Yes,Dataset and documentation licence
+8,CHANGELOG.md,Release documentation,repository root,GitHub release,Yes,Version history
+9,RELEASE_NOTES.md,Release documentation,release/,GitHub release and Kaggle package,Yes,Release-specific notes
+10,01_taxpayer_categories_ty2026_27.csv,CSV reference,data/csv/,Kaggle package,Yes,Taxpayer category reference export
+11,02_salary_component_dictionary_ty2026_27.csv,CSV reference,data/csv/,Kaggle package,Yes,Salary component reference export
+12,03_workbook_sheet_catalog_ty2026_27.csv,CSV reference,data/csv/,Kaggle package,Yes,Workbook navigation metadata
+13,04_validation_scenarios_ty2026_27.csv,CSV quality,data/csv/,Kaggle package,Yes,Validation scenario catalogue
+14,05_release_asset_manifest_ty2026_27.csv,CSV governance,data/csv/,GitHub release and Kaggle package,Yes,Release asset inventory
