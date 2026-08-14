@@ -26,12 +26,19 @@ def qname(namespace: str, tag: str) -> str:
 
 
 def parse_xml(archive: zipfile.ZipFile, member: str) -> ET.Element:
-    """Parse one XML part and report the exact member if archive reading fails."""
+    """Parse one XML part and report exact ZIP metadata when member reads fail."""
+    info = archive.getinfo(member)
     try:
         payload = archive.read(member)
-    except OSError as exc:
+    except (OSError, NotImplementedError, RuntimeError, zipfile.BadZipFile) as exc:
+        archive_path = Path(archive.filename) if archive.filename else None
+        archive_bytes = archive_path.stat().st_size if archive_path else -1
         raise RuntimeError(
-            f"Unable to read XLSX member {member!r}: {type(exc).__name__}: {exc}"
+            "Unable to read XLSX member "
+            f"{member!r}: {type(exc).__name__}: {exc}; "
+            f"compress_type={info.compress_type}; flag_bits={info.flag_bits}; "
+            f"file_size={info.file_size}; compress_size={info.compress_size}; "
+            f"header_offset={info.header_offset}; archive_size={archive_bytes}"
         ) from exc
     return ET.fromstring(payload)
 
