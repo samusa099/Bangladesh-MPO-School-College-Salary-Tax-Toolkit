@@ -1,37 +1,41 @@
-# Release Notes
+# Release Notes — Kaggle Package
 
-## Current release line
+## v0.1.3 Beta
 
-**Bangladesh MPO School & College Salary Tax Toolkit — v0.1.3**
+**Product:** Bangladesh MPO School & College Salary Tax Toolkit  
+**Tax Year:** 2026–27  
+**Package role:** Curated Kaggle/archive distribution
 
-- **Status:** Beta
-- **Tax Year:** 2026–27
-- **Canonical product release:** `v0.1.3`
-- **Expected Git tag:** `v0.1.3`
+## Included in this package
 
-This release line provides the School & College MPO workbook, taxpayer-category support, project-specific CSV companion files, structured Wiki documentation, validation assets, and repository governance.
-
-## Included
-
-- Excel salary and tax workbook for Tax Year 2026–27
-- Monthly and annual salary statements
-- Taxpayer-category comparison
-- Payslip, dashboard, and income-expense views
-- Source register and data dictionary
-- Deterministic validation scenarios
-- Root-level Wiki source
-- CSV companion layer and Kaggle packaging guidance
+- `MPO_School_College_Salary_Tax_BD_TY2026_27.xlsx`;
+- five project reference/companion CSV files;
+- Kaggle dataset metadata and package manifest;
+- project and release metadata;
+- Kaggle/Python starter notebook script;
+- stable preview assets;
+- user guide and license.
 
 ## Version identity
 
-`v4.0` is a README/design revision only and is not the product release number.
+The canonical current product release is `v0.1.3` Beta. README/design revision labels are separate from the product release number. Prepared future `v0.1.4` material does not supersede this package until that future release is deliberately published.
 
-`v0.1.4` Kaggle-safe material is currently preparatory/unreleased and does not supersede `v0.1.3` until a matching tag and GitHub Release are published.
+## Verification status
 
-See `docs/governance/VERSIONING_POLICY.md` and `CHANGELOG.md`.
+This package remains **Beta**. A Verified claim requires completion of the repository's outstanding evidence gates, including:
 
-## Status
+- authoritative source extraction;
+- at least 10 anonymized official salary-row reconciliations;
+- 20–30 executed deterministic validation scenarios;
+- workbook formula/reference QA;
+- independent MPO payroll/tax practitioner or legal review.
 
-The project remains **Beta** until source extraction, official salary-row reconciliation, formula testing, and practitioner review are complete.
+The validation-scenario CSV included here is a scenario catalog; its presence is not evidence that every scenario has passed.
 
-Version-specific notes and manifests are maintained under `release/`.
+## Distribution boundary
+
+This package intentionally excludes GitHub workflows, development-only scripts, private payroll/tax records, credentials, temporary files and unrelated project content.
+
+## Disclaimer
+
+This toolkit is provided for educational, planning and portfolio use. It is not an official MPO payroll product, tax assessment, tax-filing service or legal opinion.
