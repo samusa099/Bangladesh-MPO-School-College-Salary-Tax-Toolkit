@@ -26,8 +26,14 @@ def qname(namespace: str, tag: str) -> str:
 
 
 def parse_xml(archive: zipfile.ZipFile, member: str) -> ET.Element:
-    """Parse one XML part from the XLSX archive without relying on stream seeking."""
-    return ET.fromstring(archive.read(member))
+    """Parse one XML part and report the exact member if archive reading fails."""
+    try:
+        payload = archive.read(member)
+    except OSError as exc:
+        raise RuntimeError(
+            f"Unable to read XLSX member {member!r}: {type(exc).__name__}: {exc}"
+        ) from exc
+    return ET.fromstring(payload)
 
 
 def audit_workbook(path: Path) -> list[str]:
@@ -117,8 +123,10 @@ def audit_workbook(path: Path) -> list[str]:
         return [f"Unreadable XLSX ZIP container: {path}"]
     except ET.ParseError as exc:
         return [f"Invalid XLSX XML in {path}: {exc}"]
+    except RuntimeError as exc:
+        return [f"Workbook member read failure in {path}: {exc}"]
     except OSError as exc:
-        return [f"Unable to read workbook {path}: {type(exc).__name__}: {exc}"]
+        return [f"Unable to open workbook {path}: {type(exc).__name__}: {exc}"]
 
     print(
         f"AUDIT: {path} | formulas={formula_count} | "
