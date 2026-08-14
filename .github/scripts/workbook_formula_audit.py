@@ -26,8 +26,8 @@ def qname(namespace: str, tag: str) -> str:
 
 
 def parse_xml(archive: zipfile.ZipFile, member: str) -> ET.Element:
-    with archive.open(member) as handle:
-        return ET.parse(handle).getroot()
+    """Parse one XML part from the XLSX archive without relying on stream seeking."""
+    return ET.fromstring(archive.read(member))
 
 
 def audit_workbook(path: Path) -> list[str]:
