@@ -1,0 +1,6 @@
+# Curated distribution package.
+#
+# packages/kaggle/publish/ intentionally mirrors selected canonical repository
+# artifacts so the Kaggle/archive download is self-contained. Duplicate Guard
+# remains active for the rest of the engineering repository.
+packages/kaggle/publish/**

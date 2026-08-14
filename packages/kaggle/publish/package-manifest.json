@@ -1,0 +1,18 @@
+{
+  "package": "bangladesh-mpo-school-college-salary-tax-toolkit",
+  "release": "v0.1.3",
+  "status": "Beta",
+  "tax_year": "2026-27",
+  "source_repository": "samusa099/Bangladesh-MPO-School-College-Salary-Tax-Toolkit",
+  "source_revision": "340db7211a3f38136f3cc70938ee9c069c23fb31",
+  "generated_for": "Kaggle curated distribution",
+  "primary_workbook": "MPO_School_College_Salary_Tax_BD_TY2026_27.xlsx",
+  "content_groups": {
+    "workbook": 1,
+    "reference_csv": 5,
+    "notebook_script": 1,
+    "preview_assets": 4,
+    "metadata_files": 4
+  },
+  "release_gate_note": "Beta only. Deterministic test execution, official salary reconciliation, authoritative-source extraction and independent practitioner/legal review remain release gates."
+}

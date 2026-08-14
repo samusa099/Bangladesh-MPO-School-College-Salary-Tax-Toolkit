@@ -1,0 +1,12 @@
+project:
+  name: Bangladesh MPO School & College Salary Tax Toolkit
+  short_name: bd-mpo-salary-tax-toolkit
+  sector: MPO School and College
+  country: Bangladesh
+  tax_year: 2026-27
+  status: Beta
+  current_version: 0.1.3
+  primary_workbook: excel/school_college/MPO_School_College_Salary_Tax_BD_TY2026_27.xlsx
+  wiki_source: wiki/
+  code_license: MIT
+  documentation_license: See LICENSE
