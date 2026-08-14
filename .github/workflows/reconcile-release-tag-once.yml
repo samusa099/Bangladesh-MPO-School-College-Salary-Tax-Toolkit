@@ -32,16 +32,16 @@ jobs:
 
           echo "Resolve the existing ${OLD_TAG} target commit."
           old_ref_json="$(curl --fail-with-body -sS "${auth[@]}" "${api}/git/ref/tags/${OLD_TAG}")"
-          old_sha="$(python -c 'import json,sys; print(json.load(sys.stdin)["object"]["sha"])' <<<"${old_ref_json}")"
+          old_sha="$(jq -r '.object.sha' <<<"${old_ref_json}")"
           echo "Existing ${OLD_TAG} target: ${old_sha}"
 
           echo "Create ${NEW_TAG} at the exact same commit if it does not already exist."
           status="$(curl -sS -o /tmp/new-ref.json -w '%{http_code}' "${auth[@]}" "${api}/git/ref/tags/${NEW_TAG}")"
           if [[ "${status}" == "404" ]]; then
-            payload="$(python -c 'import json,os; print(json.dumps({"ref":"refs/tags/"+os.environ["NEW_TAG"],"sha":os.environ["OLD_SHA"]}))' OLD_SHA="${old_sha}" NEW_TAG="${NEW_TAG}")"
+            payload="$(jq -nc --arg ref "refs/tags/${NEW_TAG}" --arg sha "${old_sha}" '{ref:$ref,sha:$sha}')"
             curl --fail-with-body -sS "${auth[@]}" -X POST "${api}/git/refs" -d "${payload}" >/tmp/create-ref.json
           elif [[ "${status}" == "200" ]]; then
-            existing_sha="$(python -c 'import json; print(json.load(open("/tmp/new-ref.json"))["object"]["sha"])')"
+            existing_sha="$(jq -r '.object.sha' /tmp/new-ref.json)"
             if [[ "${existing_sha}" != "${old_sha}" ]]; then
               echo "::error::${NEW_TAG} already exists at ${existing_sha}, expected ${old_sha}. Refusing to overwrite."
               exit 1
@@ -53,9 +53,9 @@ jobs:
           fi
 
           echo "Retarget the existing GitHub Release to ${NEW_TAG}."
-          release_payload="$(python -c 'import json,os; print(json.dumps({"tag_name":os.environ["NEW_TAG"],"target_commitish":"main","name":os.environ["RELEASE_NAME"],"draft":False,"prerelease":False}))')"
+          release_payload="$(jq -nc --arg tag "${NEW_TAG}" --arg name "${RELEASE_NAME}" '{tag_name:$tag,target_commitish:"main",name:$name,draft:false,prerelease:false}')"
           curl --fail-with-body -sS "${auth[@]}" -X PATCH "${api}/releases/${RELEASE_ID}" -d "${release_payload}" >/tmp/release.json
-          release_tag="$(python -c 'import json; print(json.load(open("/tmp/release.json"))["tag_name"])')"
+          release_tag="$(jq -r '.tag_name' /tmp/release.json)"
           if [[ "${release_tag}" != "${NEW_TAG}" ]]; then
             echo "::error::Release retag failed; release reports ${release_tag}."
             exit 1
@@ -67,8 +67,8 @@ jobs:
           echo "Final verification."
           curl --fail-with-body -sS "${auth[@]}" "${api}/git/ref/tags/${NEW_TAG}" >/tmp/final-ref.json
           curl --fail-with-body -sS "${auth[@]}" "${api}/releases/${RELEASE_ID}" >/tmp/final-release.json
-          final_sha="$(python -c 'import json; print(json.load(open("/tmp/final-ref.json"))["object"]["sha"])')"
-          final_tag="$(python -c 'import json; print(json.load(open("/tmp/final-release.json"))["tag_name"])')"
+          final_sha="$(jq -r '.object.sha' /tmp/final-ref.json)"
+          final_tag="$(jq -r '.tag_name' /tmp/final-release.json)"
 
           old_status="$(curl -sS -o /tmp/old-final.json -w '%{http_code}' "${auth[@]}" "${api}/git/ref/tags/${OLD_TAG}")"
           if [[ "${final_sha}" != "${old_sha}" || "${final_tag}" != "${NEW_TAG}" || "${old_status}" != "404" ]]; then
