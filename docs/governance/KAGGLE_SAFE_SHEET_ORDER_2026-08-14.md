@@ -1,5 +1,9 @@
 # Kaggle-Safe Sheet Order — 2026-08-14
 
+## Status
+
+**Prepared for future `v0.1.4` release candidate.** The current public product release remains `v0.1.3`.
+
 ## Problem
 
 Kaggle Data Explorer displays Excel worksheet names in an alphabetic/Unicode order rather than the visual tab order saved inside the workbook. Bengali-only sheet names caused the workflow tabs to appear out of sequence.
@@ -8,7 +12,7 @@ Kaggle Data Explorer displays Excel worksheet names in an alphabetic/Unicode ord
 
 Use ASCII numeric prefixes for all public workbook sheet names in the Kaggle-distributed workbook.
 
-## Final v0.1.4 sheet sequence
+## Prepared v0.1.4 candidate sheet sequence
 
 ```text
 01_Start
@@ -35,6 +39,8 @@ Use ASCII numeric prefixes for all public workbook sheet names in the Kaggle-dis
 ## Rule going forward
 
 For Kaggle-facing Excel workbooks, use sortable sheet names with numeric prefixes. Bengali guidance can remain inside the sheets, but the sheet names themselves should start with ASCII numbers to keep Data Explorer navigation clean.
+
+A prepared future version must not be presented as the current public release until its matching Git tag and GitHub Release exist and all public metadata is synchronized.
 
 ## Scope
 
