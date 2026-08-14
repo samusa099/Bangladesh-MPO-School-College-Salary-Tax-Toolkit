@@ -32,4 +32,4 @@ Use stable professional filenames. Avoid temporary names such as `final`, `copy`
 
 ## Release changes
 
-Public version identifiers must follow `docs/governance/RELEASE_VERSION_POLICY.md`. The Git tag, GitHub Release, README, Wiki and distribution metadata should agree before publication.
+Public version identifiers must follow `docs/governance/VERSIONING_POLICY.md`. The Git tag, GitHub Release, README, Wiki and distribution metadata should agree before publication.
