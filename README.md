@@ -5,7 +5,7 @@
 <h1 align="center">Bangladesh MPO School & College Salary Tax Toolkit</h1>
 
 <p align="center">
-  <a href="#"><img alt="Version" src="https://img.shields.io/badge/Version-v4.0-7C3AED?style=for-the-badge"></a>
+  <a href="../../releases"><img alt="Release" src="https://img.shields.io/badge/Release-v0.1.3-7C3AED?style=for-the-badge"></a>
   <a href="#"><img alt="Excel Toolkit" src="https://img.shields.io/badge/Excel-Toolkit-107C41?style=for-the-badge&logo=microsoft-excel&logoColor=white"></a>
   <a href="#"><img alt="Bangladesh MPO" src="https://img.shields.io/badge/Bangladesh-MPO-0F766E?style=for-the-badge"></a>
   <a href="#"><img alt="Tax Year" src="https://img.shields.io/badge/Tax%20Year-2026--27-2563EB?style=for-the-badge"></a>
@@ -15,6 +15,7 @@
 
 <p align="center">
   <a href="LICENSE-CODE"><img alt="MIT License" src="https://img.shields.io/badge/Code%20License-MIT-22C55E?style=flat-square&logo=opensourceinitiative&logoColor=white"></a>
+  <a href="#"><img alt="README Design Revision" src="https://img.shields.io/badge/README%20Design-v4.0-9333EA?style=flat-square"></a>
   <a href="#"><img alt="Excel 2019" src="https://img.shields.io/badge/Excel-2019%2B-217346?style=flat-square&logo=microsoft-excel&logoColor=white"></a>
   <a href="#"><img alt="No VBA" src="https://img.shields.io/badge/VBA-Not%20Required-0EA5E9?style=flat-square"></a>
   <a href="#"><img alt="Open Source" src="https://img.shields.io/badge/Open%20Source-Yes-16A34A?style=flat-square&logo=github"></a>
@@ -32,7 +33,7 @@
   <a href="#-repository-architecture">Architecture</a> ·
   <a href="#-repository-structure">Structure</a> ·
   <a href="data/csv/README.md">CSV Layer</a> ·
-  <a href="docs/wiki/Home.md">Wiki Source</a> ·
+  <a href="wiki/Home.md">Wiki Source</a> ·
   <a href="packages/kaggle/README.md">Kaggle Package</a>
 </p>
 
@@ -58,7 +59,7 @@
     <tr><td>📊 Reporting</td><td>Annual statement, tax summary, dashboard and printable payslip</td></tr>
     <tr><td>✅ Validation</td><td>Deterministic formula scenarios, source register and verification status</td></tr>
     <tr><td>📁 Open data support</td><td>Reviewable CSV reference exports for Python, SQL and BI tools</td></tr>
-    <tr><td>📚 Documentation</td><td>Version-controlled Wiki source under <code>docs/wiki/</code></td></tr>
+    <tr><td>📚 Documentation</td><td>Version-controlled Wiki source under <code>wiki/</code></td></tr>
     <tr><td>📦 Distribution</td><td>Separate Kaggle-ready package design under <code>packages/kaggle/</code></td></tr>
   </tbody>
 </table>
@@ -72,7 +73,8 @@
   <tbody>
     <tr><td>Portfolio Security</td><td>Validates repository files, XLSX archives, CSV safety, immutable Actions and committed secrets</td><td><a href=".github/workflows/portfolio-security.yml">Workflow</a></td></tr>
     <tr><td>Repository policy</td><td>Workbook-focused validation script used by GitHub Actions</td><td><a href=".github/scripts/repository_policy.py">Validator</a></td></tr>
-    <tr><td>Wiki Publisher</td><td>Synchronizes the authoritative <code>docs/wiki/</code> source to the separate GitHub Wiki repository</td><td><a href=".github/workflows/publish-wiki.yml">Workflow</a></td></tr>
+    <tr><td>Wiki Publisher</td><td>Synchronizes the authoritative root <code>wiki/</code> source to the separate GitHub Wiki repository</td><td><a href=".github/workflows/publish-wiki.yml">Workflow</a></td></tr>
+    <tr><td>Versioning policy</td><td>Keeps README, Wiki, releases, tags and distribution metadata on one canonical release identifier</td><td><a href="docs/governance/VERSIONING_POLICY.md">Policy</a></td></tr>
     <tr><td>Dependabot</td><td>Maintains GitHub Actions dependencies on an Asia/Dhaka schedule</td><td><a href=".github/dependabot.yml">Configuration</a></td></tr>
     <tr><td>Workbook bug report</td><td>Structured form for formula, layout, source and compatibility defects</td><td><a href="../../issues/new?template=workbook-bug.yml">Open a bug report</a></td></tr>
     <tr><td>Pull-request checklist</td><td>Requires workbook, source, privacy and security validation</td><td><a href=".github/pull_request_template.md">Template</a></td></tr>
@@ -90,12 +92,15 @@
     <tr><td>Product</td><td>Bangladesh MPO Salary & Tax Excel Toolkit</td></tr>
     <tr><td>First package</td><td>MPO School & College Salary and Tax</td></tr>
     <tr><td>Workbook</td><td><code>MPO_School_College_Salary_Tax_BD_TY2026_27.xlsx</code></td></tr>
-    <tr><td>Version</td><td><code>v4.0</code></td></tr>
+    <tr><td>Product release</td><td><code>v0.1.3</code></td></tr>
+    <tr><td>README design revision</td><td><code>v4.0</code> <em>(documentation/design only)</em></td></tr>
     <tr><td>Status</td><td>Beta</td></tr>
     <tr><td>Macro policy</td><td>No VBA in v1</td></tr>
     <tr><td>Compatibility target</td><td>Excel 2019 core formulas</td></tr>
   </tbody>
 </table>
+
+<p align="center"><sub>Prepared <code>v0.1.4</code> Kaggle-safe material remains unreleased until a matching Git tag and GitHub Release are published.</sub></p>
 
 <h2 align="center">📊 Workbook modules</h2>
 
@@ -164,7 +169,7 @@ flowchart TB
     class G release;
 ```
 
-<p align="center">GitHub is the <strong>engineering workspace</strong>. Kaggle is the <strong>curated distribution workspace</strong>. The GitHub Wiki is a <strong>published copy</strong> of the authoritative Markdown under <code>docs/wiki/</code>.</p>
+<p align="center">GitHub is the <strong>engineering workspace</strong>. Kaggle is the <strong>curated distribution workspace</strong>. The GitHub Wiki is a <strong>published copy</strong> of the authoritative Markdown under root <code>wiki/</code>.</p>
 
 <h2 align="center">🗂️ Repository structure</h2>
 
@@ -180,16 +185,16 @@ Bangladesh-MPO-School-College-Salary-Tax-Toolkit/
 ├── docs/
 │   ├── governance/             # Release, security and maintenance guidance
 │   ├── research/               # Project-specific rule research
-│   ├── user-guides/            # Workbook usage guidance
-│   └── wiki/                   # Authoritative GitHub Wiki source
+│   └── user-guides/            # Workbook usage guidance
 ├── excel/
 │   ├── shared_engine/          # Reusable calculation-engine notes
 │   └── school_college/         # School and College workbook package
 ├── notebooks/                  # Reproducible validation work
 ├── packages/
 │   └── kaggle/                 # Curated distribution workspace
-├── release/                    # Release notes and manifests
+├── release/                    # Release notes, manifests and version metadata
 ├── tests/                      # Formula-validation scenarios
+├── wiki/                       # Authoritative GitHub Wiki source
 ├── CHANGELOG.md
 ├── CITATION.cff
 ├── CONTRIBUTING.md
@@ -218,13 +223,13 @@ No employee-identifiable payroll, bank, national-ID or tax-return data belongs i
 
 ```text
 Main repository
-└── docs/wiki/                    authoritative, reviewable source
+└── wiki/                         authoritative, reviewable source
 
 GitHub Wiki repository
 └── *.md                          published copy
 ```
 
-A root-level `/wiki/` folder is intentionally not used. The GitHub Wiki tab is backed by the separate `.wiki.git` repository. The controlled publishing workflow requires a repository secret named `WIKI_TOKEN` with suitable contents-write access.
+The root-level `wiki/` folder is the only authoritative Wiki source. The publishing workflow validates `wiki/Home.md` and `wiki/_Sidebar.md`, then synchronizes root Wiki Markdown to the separate `.wiki.git` repository when `WIKI_TOKEN` is configured. Legacy `docs/wiki/` material must not be presented as a second source of truth.
 
 <h2 align="center">✅ Verification status</h2>
 
@@ -234,7 +239,8 @@ This project remains **Beta** until:
 - at least 10 anonymized official salary rows reconcile;
 - every verified rule has a source ID and effective date;
 - formula cells are protected for public release;
-- MPO payroll and tax practitioners review the workbook.
+- MPO payroll and tax practitioners review the workbook;
+- public release identifiers are consistent across README, Wiki, Git tag, GitHub Release and distribution metadata.
 
 <h2 align="center">🚧 Scope boundary</h2>
 
@@ -290,6 +296,8 @@ Those subjects require separate packages and independently verified rule sets.
   <a href="LICENSE-CODE"><strong>MIT License</strong></a>
   &nbsp;·&nbsp;
   <a href="SECURITY.md"><strong>Security</strong></a>
+  &nbsp;·&nbsp;
+  <a href="CHANGELOG.md"><strong>Changelog</strong></a>
 </p>
 
 <p align="center"><sub>Open-source portfolio project maintained for Bangladesh payroll, tax, Excel automation and data-learning workflows.</sub></p>
