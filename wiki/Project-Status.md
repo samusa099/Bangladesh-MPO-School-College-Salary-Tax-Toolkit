@@ -5,6 +5,13 @@
 **Overall status:** Beta  
 **Review cadence:** Weekly
 
+## Release identity
+
+- **Canonical public product release:** `v0.1.3`
+- **README/design revision:** `v4.0` — documentation/design only, not a product release
+- **Prepared future candidate:** `v0.1.4` — Unreleased until matching Git tag and GitHub Release are published
+- **Release-number consistency gate:** Open until the published Git tag is corrected from the inconsistent `v2` identifier to the canonical release version
+
 ## Current release gates
 
 | Area | Status | Evidence / remaining gate |
@@ -13,6 +20,7 @@
 | Core salary flow | ✅ Implemented | Monthly and annual salary calculation workflow is present. |
 | Taxpayer categories | ✅ Implemented | Taxpayer-category comparison is included. |
 | Workbook UX / v0.1.3 package | ✅ Implemented | v0.1.3 workbook and visual previews were merged; tab-layout changes were documented. |
+| Release identifier consistency | 🟡 In progress | Repository documentation is being aligned to v0.1.3; published Git tag/Release tag still requires correction. |
 | Source extraction | 🟡 In progress | Core working rules are documented, while several allowance, deduction and tax-treatment rates still require source-by-source extraction. |
 | Official salary reconciliation | 🟡 In progress | Pilot reconciliation work has started; the 10-row anonymized validation gate is not yet met. |
 | Deterministic formula validation | 🟡 In progress | Validation assets exist and formula-error scanning has been performed; the full 20–30 deterministic scenario gate is not yet demonstrated. |
@@ -27,6 +35,7 @@
 - v0.1.3 tab-layout refinements were documented.
 - Repository cover branding was refreshed.
 - Official salary reconciliation has moved from **Pending** to **In progress**, but it is not yet complete.
+- Release/version governance now treats `v0.1.3` as the canonical product release and separates README/design revision `v4.0` from product versioning.
 
 ## Research work still blocking Verified status
 
@@ -35,6 +44,7 @@
 - Complete 20–30 deterministic formula scenarios, including boundary and exception cases.
 - Resolve all unexplained salary differences.
 - Complete legal/policy review and practitioner review.
+- Correct the public Git tag/Release tag so it matches canonical `v0.1.3`.
 
 ## Weekly update rule
 
@@ -45,5 +55,6 @@ Each weekly review should:
 3. Update `wiki/Home.md` and this page with the review date.
 4. Keep **Verified release** pending until every published release gate is satisfied.
 5. Record “no material status change” when work occurred but no release gate advanced.
+6. Confirm README, Wiki, changelog, release notes, Git tag and distribution metadata still use one canonical product release identifier.
 
 **Next scheduled review:** 2026-08-21
