@@ -30,6 +30,14 @@ The toolkit converts Bangladesh School & College MPO salary and individual-tax r
 | Macro policy | No VBA in v1 |
 | Last status review | **2026-08-14** |
 
+## 🏷️ Release Identity
+
+The canonical public product release is **`v0.1.3`**.
+
+- `v4.0` refers only to the README/design revision; it is not the product release version.
+- Prepared `v0.1.4` Kaggle-safe material remains **Unreleased** until a matching Git tag and GitHub Release are published.
+- The product must not be marked Verified while public release identifiers conflict.
+
 ## ✅ Current Capabilities
 
 - Monthly and annual salary calculations
