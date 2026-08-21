@@ -28,7 +28,7 @@ The toolkit converts Bangladesh School & College MPO salary and individual-tax r
 | Main workbook | `excel/school_college/MPO_School_College_Salary_Tax_BD_TY2026_27.xlsx` |
 | Formula policy | Excel 2019-compatible core formulas |
 | Macro policy | No VBA in v1 |
-| Last status review | **2026-08-14** |
+| Last status review | **2026-08-21** |
 
 ## 🏷️ Release Identity
 
@@ -36,7 +36,7 @@ The canonical public product release is **`v0.1.3`**.
 
 - `v4.0` refers only to the README/design revision; it is not the product release version.
 - Prepared `v0.1.4` Kaggle-safe material remains **Unreleased** until a matching Git tag and GitHub Release are published.
-- The product must not be marked Verified while public release identifiers conflict.
+- Release identifier consistency is now complete: the live GitHub Release uses the canonical `v0.1.3` tag. The historical `v2` tag remains only as a deprecated protected legacy alias and is not an active release identifier.
 
 ## ✅ Current Capabilities
 
@@ -48,6 +48,7 @@ The canonical public product release is **`v0.1.3`**.
 - Source register, data dictionary and validation assets
 - GitHub and Kaggle publishing structure
 - v0.1.3 workbook visual-experience package
+- Curated v0.1.3 Kaggle/archive publish package
 
 ## 🚦 Release Status
 
@@ -57,6 +58,7 @@ The canonical public product release is **`v0.1.3`**.
 | Core salary flow | ✅ Implemented |
 | Taxpayer categories | ✅ Implemented |
 | Workbook UX / v0.1.3 package | ✅ Implemented |
+| Release identifier consistency | ✅ Complete |
 | Source extraction | 🟡 In progress |
 | Official salary reconciliation | 🟡 In progress |
 | Deterministic formula validation | 🟡 In progress |
@@ -64,7 +66,7 @@ The canonical public product release is **`v0.1.3`**.
 | Verified release | ⏳ Pending |
 
 > [!NOTE]
-> Official salary reconciliation has moved from **Pending** to **In progress** because pilot comparison work has started. The release gate remains open until at least 10 anonymized official salary rows reconcile and unresolved differences are documented.
+> Release/version governance advanced this week, but the verification gates did not otherwise advance. Source extraction, 10-row official salary reconciliation, the 20–30 deterministic scenario set, and legal/practitioner review remain incomplete, so the project remains Beta.
 
 See **[Project Status](Project-Status.md)** for dated evidence, remaining release gates and the weekly review rule.
 
@@ -89,6 +91,6 @@ Beta / Verified release
 
 <div align="center">
 
-**Next weekly status review: 2026-08-21**
+**Next weekly status review: 2026-08-28**
 
 </div>
