@@ -1,16 +1,31 @@
 test_id,area,scenario,input_summary,expected_rule,priority,status
-TC-HR-001,House Rent,Basic salary produces percentage above floor,Basic BDT 25000,House rent equals BDT 3750,Critical,Defined
-TC-HR-002,House Rent,Low basic salary triggers minimum floor,Basic BDT 10000,House rent equals BDT 2000,Critical,Defined
-TC-SF-001,Special Facility,Grade 1-9 percentage rule,Basic BDT 50000 and grade 9,Special facility equals BDT 5000,Critical,Defined
-TC-SF-002,Special Facility,Grade 10-20 percentage above floor,Basic BDT 25000 and grade 10,Special facility equals BDT 3750,Critical,Defined
-TC-SF-003,Special Facility,Grade 10-20 minimum floor,Basic BDT 8000 and grade 20,Special facility equals BDT 1500,Critical,Defined
-TC-TAX-001,Tax Threshold,General male below threshold,Taxable income BDT 400000,Slab tax equals zero,High,Defined
-TC-TAX-002,Tax Threshold,Female taxpayer below category threshold,Taxable income BDT 437250,Estimated tax equals zero before other adjustments,High,Defined
-TC-TAX-003,Tax Threshold,General male above threshold,Taxable income BDT 437250,Income above threshold equals BDT 37250,High,Defined
-TC-TAX-004,Minimum Tax,Existing taxpayer with positive slab liability below minimum,General male taxable income BDT 437250,Estimated tax applies BDT 5000 minimum,High,Defined
-TC-TAX-005,Minimum Tax,New taxpayer minimum tax assumption,Positive tax position and New Taxpayer Yes,Minimum tax assumption equals BDT 1000,High,Defined
-TC-CAT-001,Category Mapping,Female age 65 plus does not stack thresholds,Female taxpayer age 65 plus,Threshold remains BDT 450000,High,Defined
-TC-DEP-001,Dependent Disability,Eligible dependent addition applied once,One eligible dependent with disability,Threshold addition equals BDT 50000,High,Defined
-TC-DEP-002,Dependent Disability,Double claim prohibited,Both parents are taxpayers,Only one parent may claim the addition,High,Manual review
-TC-INT-001,Annual Integration,Monthly totals reconcile to annual statement,Twelve monthly salary rows,Annual components equal sum of monthly rows,Critical,Defined
-TC-INT-002,Dashboard Integration,Dashboard KPIs reconcile to annual sheets,Completed annual salary tax and expense data,Dashboard values equal linked source totals,Critical,Defined
+TC-HR-001,House Rent,Basic salary produces percentage above floor,Basic BDT 25000,Current workbook rule returns BDT 3750,Critical,Defined; source mapping pending; execution blocked by #30
+TC-HR-002,House Rent,Low basic salary triggers minimum floor,Basic BDT 10000,Current workbook rule returns BDT 2000,Critical,Defined; source mapping pending; execution blocked by #30
+TC-SF-001,Special Facility,Grade 1-9 percentage rule,Basic BDT 50000 and grade 9,Current workbook rule returns BDT 5000,Critical,Defined; source mapping pending; execution blocked by #30
+TC-SF-002,Special Facility,Grade 10-20 percentage above floor,Basic BDT 25000 and grade 10,Current workbook rule returns BDT 3750,Critical,Defined; source mapping pending; execution blocked by #30
+TC-SF-003,Special Facility,Grade 10-20 minimum floor,Basic BDT 8000 and grade 20,Current workbook rule returns BDT 1500,Critical,Defined; source mapping pending; execution blocked by #30
+TC-BAI-001,Baishakhi Allowance,Primary-source 20 percent rate,Basic BDT 25000,Source target equals BDT 5000,High,Defined; supersession check pending; execution blocked by #30
+TC-WEL-001,Welfare Deduction,Four percent authority rate,Applicable deduction base BDT 50000,Source target equals BDT 2000 if the configured base is BDT 50000,High,Defined; exact workbook base mapping pending; execution blocked by #30
+TC-RET-001,Retirement Deduction,Six percent authority rate,Applicable MPO deduction base BDT 50000,Source target equals BDT 3000 if the configured base is BDT 50000,High,Defined; exact workbook base mapping pending; execution blocked by #30
+TC-TAX-GEN-001,Tax Threshold,General taxpayer immediately below threshold,Taxable income BDT 374999,Income above threshold equals BDT 0 and slab tax is zero before other adjustments,Critical,Defined; execution blocked by #30
+TC-TAX-GEN-002,Tax Threshold,General taxpayer exactly at threshold,Taxable income BDT 375000,Income above threshold equals BDT 0 and slab tax is zero before other adjustments,Critical,Defined; execution blocked by #30
+TC-TAX-GEN-003,Tax Threshold,General taxpayer immediately above threshold,Taxable income BDT 375001,Income above threshold equals BDT 1 before progressive slab calculation,Critical,Defined; execution blocked by #30
+TC-TAX-F-001,Tax Threshold,Female taxpayer immediately below threshold,Taxable income BDT 424999,Income above threshold equals BDT 0,Critical,Defined; execution blocked by #30
+TC-TAX-F-002,Tax Threshold,Female taxpayer exactly at threshold,Taxable income BDT 425000,Income above threshold equals BDT 0,Critical,Defined; execution blocked by #30
+TC-TAX-F-003,Tax Threshold,Female taxpayer immediately above threshold,Taxable income BDT 425001,Income above threshold equals BDT 1 before progressive slab calculation,Critical,Defined; execution blocked by #30
+TC-CAT-65-001,Category Mapping,Age 65 threshold maps to female or 65-plus class,Male taxpayer age 65 with taxable income BDT 425000,Applicable base threshold equals BDT 425000,High,Defined; execution blocked by #30
+TC-TAX-TG-001,Tax Threshold,Third-gender taxpayer immediately below threshold,Taxable income BDT 499999,Income above threshold equals BDT 0,Critical,Defined; execution blocked by #30
+TC-TAX-TG-002,Tax Threshold,Third-gender taxpayer exactly at threshold,Taxable income BDT 500000,Income above threshold equals BDT 0,Critical,Defined; execution blocked by #30
+TC-TAX-TG-003,Tax Threshold,Third-gender taxpayer immediately above threshold,Taxable income BDT 500001,Income above threshold equals BDT 1 before progressive slab calculation,Critical,Defined; execution blocked by #30
+TC-CAT-DIS-001,Category Mapping,Individual taxpayer with disability threshold,Taxable income BDT 500000 and eligible disability status,Applicable base threshold equals BDT 500000,High,Defined; execution blocked by #30
+TC-TAX-WFF-001,Tax Threshold,Gazetted wounded freedom fighter exactly at threshold,Taxable income BDT 525000 and eligible status,Income above threshold equals BDT 0,Critical,Defined; execution blocked by #30
+TC-TAX-JULY-001,Tax Threshold,Gazetted July fighter immediately above threshold,Taxable income BDT 525001 and eligible status,Income above threshold equals BDT 1 before progressive slab calculation,Critical,Defined; execution blocked by #30
+TC-DEP-001,Dependent Disability,Eligible dependent addition applied once,One eligible dependent with disability,Threshold addition equals BDT 50000,High,Defined; execution blocked by #30
+TC-DEP-002,Dependent Disability,Double claim prohibited,Both parents are taxpayers,Only one eligible parent or legal guardian may claim the addition,High,Manual review; execution blocked by #30
+TC-MIN-001,Minimum Tax,Existing-taxpayer minimum interaction,Positive slab liability below configured existing-taxpayer minimum,Apply the legally applicable minimum after source and location rules are confirmed,High,Defined; minimum-tax source review pending; execution blocked by #30
+TC-MIN-002,Minimum Tax,New-taxpayer minimum interaction,Positive tax position and New Taxpayer Yes,Current NBR source target for minimum tax is BDT 1000 where applicable,High,Defined; execution blocked by #30
+TC-INT-001,Annual Integration,Full 12-month aggregation,Twelve monthly salary rows,Annual components equal the sum of the twelve monthly rows,Critical,Defined; execution blocked by #30
+TC-INT-002,Annual Integration,Partial-year aggregation,Six populated monthly salary rows and six zero or blank months,Annual components equal the sum of the six populated months,High,Defined; execution blocked by #30
+TC-INT-003,Annual Integration,Salary changes during the year,First six months use one basic salary and final six months use a changed basic salary,Annual totals equal the month-specific calculations rather than twelve copies of one salary,High,Defined; execution blocked by #30
+TC-INT-004,Dashboard Integration,Dashboard KPIs reconcile to annual sheets,Completed annual salary tax and expense data,Dashboard values equal linked source totals,Critical,Defined; execution blocked by #30
+TC-ERR-001,Workbook Integrity,Formula and external-reference scan,All formula-bearing sheets,No unexplained REF VALUE DIV0 NAME or NA errors and no unintended external workbook references,Critical,Defined; execution blocked by #30
