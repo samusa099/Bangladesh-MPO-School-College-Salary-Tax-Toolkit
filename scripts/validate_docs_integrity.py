@@ -5,7 +5,7 @@ import re
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-WIKI = ROOT / "docs" / "wiki"
+WIKI = ROOT / "wiki"
 
 errors: list[str] = []
 
