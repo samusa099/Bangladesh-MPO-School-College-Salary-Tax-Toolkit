@@ -128,22 +128,24 @@
 
 <h2 align="center">👥 Taxpayer category coverage</h2>
 
-<p align="center">For Tax Year 2026–27, the workbook compares:</p>
+<p align="center">For Tax Year 2026–27, the current NBR source target is:</p>
 
 <table align="center" width="72%">
   <thead>
     <tr><th>Category</th><th>Tax-free threshold</th></tr>
   </thead>
   <tbody>
-    <tr><td>General male below 65</td><td align="right">BDT 400,000</td></tr>
-    <tr><td>Female taxpayer or taxpayer aged 65+</td><td align="right">BDT 450,000</td></tr>
-    <tr><td>Third-gender taxpayer or disabled individual</td><td align="right">BDT 525,000</td></tr>
-    <tr><td>Eligible gazetted wounded freedom fighter or July fighter</td><td align="right">BDT 550,000</td></tr>
+    <tr><td>General male below 65</td><td align="right">BDT 375,000</td></tr>
+    <tr><td>Female taxpayer or taxpayer aged 65+</td><td align="right">BDT 425,000</td></tr>
+    <tr><td>Third-gender taxpayer or disabled individual</td><td align="right">BDT 500,000</td></tr>
+    <tr><td>Eligible gazetted wounded freedom fighter or July fighter</td><td align="right">BDT 525,000</td></tr>
     <tr><td>Eligible disabled child or dependent</td><td align="right">Additional BDT 50,000</td></tr>
   </tbody>
 </table>
 
-<p align="center">Female status and age 65+ are not added together. The workbook treats them as the same higher-threshold class.</p>
+<p align="center"><strong>Source:</strong> NBR Budget Speech 2026, Appendix B, Table 1. The canonical workbook is still under restoration and QA, so source verification does not yet prove workbook implementation. See <a href="docs/research/TAX_THRESHOLD_RECONCILIATION_2026-08-23.md">Tax Threshold Reconciliation</a>.</p>
+
+<p align="center">Female status and age 65+ are not added together. They use the same higher-threshold class.</p>
 
 <h2 align="center">🧱 Repository architecture</h2>
 
