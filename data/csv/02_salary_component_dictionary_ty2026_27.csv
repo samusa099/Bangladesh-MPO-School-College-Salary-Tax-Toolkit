@@ -1,12 +1,12 @@
 component_code,component_name,component_type,calculation_basis,frequency,workbook_location,verification_status,notes
 SAL-BASIC,Basic Salary,Earning,User-entered monthly basic,Monthly,USER_INPUT and MONTHLY_SALARY,User Input,Current basic salary drives related percentage calculations
-SAL-HOUSE-RENT,House Rent Allowance,Earning,MAX(Basic Salary * 15%; BDT 2000),Monthly,MONTHLY_SALARY,Verified,School and College MVP rule effective from 01-Jul-2026
-SAL-MEDICAL,Medical Allowance,Earning,Editable configured amount,Monthly,USER_INPUT and MONTHLY_SALARY,Beta,Update from the latest applicable circular
-SAL-SPECIAL-G1-9,Special Facility Grades 1-9,Earning,Basic Salary * 10%,Monthly,MONTHLY_SALARY,Verified,Applied by comparable national pay grade
-SAL-SPECIAL-G10-20,Special Facility Grades 10-20,Earning,MAX(Basic Salary * 15%; BDT 1500),Monthly,MONTHLY_SALARY,Verified,Applied by comparable national pay grade
-SAL-FESTIVAL,Festival Bonus,Earning,Editable rate and payable month,Periodic,USER_INPUT and MONTHLY_SALARY,Beta,Requires current source-confirmed eligibility and rate
-SAL-BAISHAKHI,Baishakhi Allowance,Earning,Editable rate,Annual,USER_INPUT and MONTHLY_SALARY,Beta,Requires current source-confirmed eligibility and rate
+SAL-HOUSE-RENT,House Rent Allowance,Earning,MAX(Basic Salary * 15%; BDT 2000),Monthly,MONTHLY_SALARY,Source review pending,Existing workbook rule; authoritative effective-period source still needs explicit mapping before Verified status
+SAL-MEDICAL,Medical Allowance,Earning,Editable configured amount,Monthly,USER_INPUT and MONTHLY_SALARY,Beta,Update from the latest applicable primary circular/order
+SAL-SPECIAL-G1-9,Special Facility Grades 1-9,Earning,Basic Salary * 10%,Monthly,MONTHLY_SALARY,Source review pending,Existing workbook rule; authoritative MPO-specific effective-period source still needs explicit mapping
+SAL-SPECIAL-G10-20,Special Facility Grades 10-20,Earning,MAX(Basic Salary * 15%; BDT 1500),Monthly,MONTHLY_SALARY,Source review pending,Existing workbook rule; authoritative MPO-specific effective-period source still needs explicit mapping
+SAL-FESTIVAL,Festival Bonus,Earning,Editable rate and payable month,Periodic,USER_INPUT and MONTHLY_SALARY,Secondary-corroborated / primary-order pending,May 2025 reports quote Finance Division order setting MPO teachers to 50% of one month's government-share basic salary while employees remain 50%; archive original primary order before formula verification
+SAL-BAISHAKHI,Baishakhi Allowance,Earning,Basic Salary * 20% under SHED 2018 order,Annual,USER_INPUT and MONTHLY_SALARY,Primary rate source / supersession check pending,SHED 2018 order states 20%; DSHE April 2026 notice confirms current billing workflow but does not restate the rate
 SAL-ARREAR,Salary Arrear,Earning,User-entered amount,As applicable,USER_INPUT and MONTHLY_SALARY,User Input,Record only supported arrear amounts
-DED-WELFARE,Welfare Deduction,Deduction,Editable configured rate or amount,Monthly,USER_INPUT and MONTHLY_SALARY,Beta,Requires applicable authority rule
-DED-RETIREMENT,Retirement Deduction,Deduction,Editable configured rate or amount,Monthly,USER_INPUT and MONTHLY_SALARY,Beta,Requires applicable authority rule
+DED-WELFARE,Welfare Deduction,Deduction,Basic/MPO amount * 4% subject to authority scope,Monthly,USER_INPUT and MONTHLY_SALARY,Primary authority identified / workbook pending,Welfare Trust regulations page publishes the 4% contribution-deduction notification; map exact formula base in restored workbook before Verified status
+DED-RETIREMENT,Retirement Deduction,Deduction,MPO amount * 6% subject to authority scope,Monthly,USER_INPUT and MONTHLY_SALARY,Primary authority verified / workbook pending,Retirement Benefit Board states 6% is saved/deducted from MPO and links the 6% deduction gazette
 DED-TDS,Tax Deducted at Source,Deduction,User-entered or allocated annual tax deduction,Monthly or periodic,USER_INPUT and TAX_CALCULATION,User Input,Must reconcile with tax certificates or payroll records
