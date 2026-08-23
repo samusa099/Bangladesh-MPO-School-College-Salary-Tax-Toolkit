@@ -1,9 +1,9 @@
 category_code,dropdown_category,gender_age,eligibility,tax_free_threshold_bdt,extra_vs_general_bdt,dependent_disability_addition_bdt,minimum_tax_existing_bdt,minimum_tax_new_bdt,workbook_mapping,source_id,verification_status
-TAX-GEN-M-U65,General Male (<65),Male below 65,No higher special threshold,400000,0,50000,5000,1000,General male taxpayer,SRC-001,Verified
-TAX-FEMALE,Female Taxpayer,Female adult taxpayer,Female taxpayer threshold,450000,50000,50000,5000,1000,Female taxpayer,SRC-001,Verified
-TAX-M-65PLUS,Male Taxpayer (65+),Male age 65 or above,Age-based threshold,450000,50000,50000,5000,1000,65+ taxpayer,SRC-001,Verified
-TAX-F-65PLUS,Female Taxpayer (65+),Female age 65 or above,Gender and age benefits are not cumulative,450000,50000,50000,5000,1000,Female/65+ threshold,SRC-001,Verified
-TAX-THIRD-GENDER,Third Gender Taxpayer,Recognised third-gender taxpayer,Applicable category status required,525000,125000,50000,5000,1000,Third gender,SRC-001,Verified
-TAX-DISABILITY,Person with Disability,Any gender,Individual taxpayer with disability,525000,125000,50000,5000,1000,Disabled individual,SRC-001,Verified
-TAX-WFF,Gazetted Wounded Freedom Fighter,Any gender or age,Gazetted eligibility required,550000,150000,50000,5000,1000,Freedom fighter,SRC-001,Verified
-TAX-JULY,Gazetted July Fighter,Any gender or age,Applicable gazette status required,550000,150000,50000,5000,1000,July fighter,SRC-001,Verified
+TAX-GEN-M-U65,General Male (<65),Male below 65,No higher special threshold,375000,0,50000,5000,1000,General male taxpayer,NBR-BUDGET-2026-APP-B,Source-verified / workbook-pending
+TAX-FEMALE,Female Taxpayer,Female adult taxpayer,Female taxpayer threshold,425000,50000,50000,5000,1000,Female taxpayer,NBR-BUDGET-2026-APP-B,Source-verified / workbook-pending
+TAX-M-65PLUS,Male Taxpayer (65+),Male age 65 or above,Age-based threshold,425000,50000,50000,5000,1000,65+ taxpayer,NBR-BUDGET-2026-APP-B,Source-verified / workbook-pending
+TAX-F-65PLUS,Female Taxpayer (65+),Female age 65 or above,Gender and age benefits are not cumulative,425000,50000,50000,5000,1000,Female/65+ threshold,NBR-BUDGET-2026-APP-B,Source-verified / workbook-pending
+TAX-THIRD-GENDER,Third Gender Taxpayer,Recognised third-gender taxpayer,Applicable category status required,500000,125000,50000,5000,1000,Third gender,NBR-BUDGET-2026-APP-B,Source-verified / workbook-pending
+TAX-DISABILITY,Person with Disability,Any gender,Individual taxpayer with disability,500000,125000,50000,5000,1000,Disabled individual,NBR-BUDGET-2026-APP-B,Source-verified / workbook-pending
+TAX-WFF,Gazetted Wounded Freedom Fighter,Any gender or age,Gazetted eligibility required,525000,150000,50000,5000,1000,Freedom fighter,NBR-BUDGET-2026-APP-B,Source-verified / workbook-pending
+TAX-JULY,Gazetted July Fighter,Any gender or age,Applicable gazette status required,525000,150000,50000,5000,1000,July fighter,NBR-BUDGET-2026-APP-B,Source-verified / workbook-pending

@@ -3,20 +3,28 @@
 The workbook uses `TAXPAYER_CATEGORIES` to compare tax-free thresholds and select the correct base threshold for the annual tax calculation.
 
 > [!IMPORTANT]
-> The values below reflect the project’s current **Tax Year 2026–27 working rule table** and remain subject to final source-by-source legal and professional review.
+> The source-target values below are taken from the National Board of Revenue's 2026 Budget Speech, Appendix B, Table 1, for **Tax Years 2026–27 and 2027–28**. The canonical v0.1.3 workbook is still under restoration/QA in issue #30 and PR #51, so these source-verified values must be reconciled against the workbook before the workbook can be treated as Verified.
 
 ## Threshold Comparison
 
 | Category | Tax-free threshold |
 |:--|--:|
-| General male below 65 | **BDT 400,000** |
-| Female taxpayer | **BDT 450,000** |
-| Male taxpayer aged 65 or above | **BDT 450,000** |
-| Female taxpayer aged 65 or above | **BDT 450,000** |
-| Third-gender taxpayer | **BDT 525,000** |
-| Person with disability | **BDT 525,000** |
-| Gazetted wounded freedom fighter | **BDT 550,000** |
-| Gazetted July fighter | **BDT 550,000** |
+| General male below 65 | **BDT 375,000** |
+| Female taxpayer | **BDT 425,000** |
+| Male taxpayer aged 65 or above | **BDT 425,000** |
+| Female taxpayer aged 65 or above | **BDT 425,000** |
+| Third-gender taxpayer | **BDT 500,000** |
+| Person with disability | **BDT 500,000** |
+| Gazetted wounded freedom fighter | **BDT 525,000** |
+| Gazetted July fighter | **BDT 525,000** |
+| Parent/legal guardian of eligible dependent with disability | **Additional BDT 50,000** |
+
+### Authoritative source
+
+- National Board of Revenue, **Budget Speech 2026**, Appendix B, Table 1: <https://nbr.gov.bd/uploads/budget/Budget_Speech_English.pdf>
+- NBR Finance Acts catalogue, which lists **Finance Act, 2026** dated 06 July 2026: <https://nbr.gov.bd/regulations/acts/finance-acts>
+
+The same NBR budget material shows the **BDT 400,000 / 450,000 / 525,000 / 550,000** sequence for later tax years, not for Tax Years 2026–27 and 2027–28. See the dated reconciliation note in `docs/research/TAX_THRESHOLD_RECONCILIATION_2026-08-23.md`.
 
 ## Selection Logic
 
@@ -37,7 +45,7 @@ Total Taxable Income
 Income above the threshold is passed through the progressive tax slabs and minimum-tax comparison.
 
 > [!NOTE]
-> Female status and age 65 or above use the same BDT 450,000 threshold. These conditions are not added together.
+> Female status and age 65 or above use the same BDT 425,000 threshold. These conditions are not added together.
 
 ## Validation Checks
 
@@ -46,10 +54,11 @@ Income above the threshold is passed through the progressive tax slabs and minim
 - [ ] Only one base threshold is applied.
 - [ ] Disability or special-category evidence is available where required.
 - [ ] Boundary values immediately below, at, and above each threshold are tested.
+- [ ] Workbook outputs are reconciled against these source-target values after the canonical workbook is restored.
 
 ## Beta Limitation
 
-The workbook provides a planning estimate. Final tax treatment may depend on effective legislation, taxpayer evidence, location-based minimum tax, exemptions, rebate eligibility, and professional interpretation.
+The workbook provides a planning estimate. Final tax treatment may depend on effective legislation, taxpayer evidence, location-based minimum tax, exemptions, rebate eligibility, and professional interpretation. Source verification of a threshold does not by itself prove that the current workbook binary implements it correctly.
 
 ---
 
