@@ -3,12 +3,14 @@ name: Documentation Integrity
 on:
   pull_request:
     paths:
+      - "wiki/**"
       - "docs/**"
       - "scripts/validate_docs_integrity.py"
       - ".github/workflows/docs-integrity.yml"
   push:
     branches: [main]
     paths:
+      - "wiki/**"
       - "docs/**"
       - "scripts/validate_docs_integrity.py"
       - ".github/workflows/docs-integrity.yml"
