@@ -1,6 +1,6 @@
 # 🚦 Project Status
 
-**Last reviewed:** 2026-08-21  
+**Last reviewed:** 2026-08-28  
 **Release line:** v0.1.3  
 **Overall status:** Beta  
 **Review cadence:** Weekly
@@ -17,31 +17,34 @@
 | Area | Status | Evidence / remaining gate |
 |---|---|---|
 | Workbook architecture | ✅ Implemented | Shared engine and School & College workbook structure are present. |
-| Core salary flow | ✅ Implemented | Monthly and annual salary calculation workflow is present. |
-| Taxpayer categories | ✅ Implemented | Taxpayer-category comparison is included. |
+| Core salary flow | ✅ Implemented | Monthly and annual salary calculation workflow is present, but final binary verification remains part of workbook QA. |
+| Taxpayer categories | 🟡 Source-corrected; workbook pending | PR #54 corrected the canonical TY 2026–27 reference targets to BDT 375k / 425k / 500k / 525k (+50k eligible dependent). The current corrupt workbook cannot yet be inspected to confirm its formulas implement those corrected targets. |
 | Workbook UX / v0.1.3 package | ✅ Implemented | v0.1.3 workbook and visual previews were merged; tab-layout changes were documented. |
 | Release identifier consistency | ✅ Complete | Repository metadata is aligned to v0.1.3; the live GitHub Release uses the canonical tag, while `v2` is retained only as a documented deprecated protected alias. |
-| Source extraction | 🟡 In progress | Issue #39 remains open; several allowance, deduction and tax-treatment rules still require authoritative source-by-source extraction. |
-| Official salary reconciliation | 🟡 In progress | Issue #40 remains open; the 10-row anonymized reconciliation gate is not yet met. |
-| Deterministic formula validation | 🟡 In progress | Validation assets and formula-error scans exist, but the full 20–30 executed deterministic scenario gate is not yet demonstrated. |
-| Legal and practitioner review | ⏳ Pending | Line-by-line legal/policy review and practitioner sign-off remain outstanding. |
+| Source extraction | 🟡 In progress | PR #55 materially strengthened evidence for Baishakhi allowance, Welfare Trust and Retirement Benefit deductions, and corrected evidence maturity labels. Issue #39 remains open because festival allowance still lacks archived primary authority and other workbook rules still require complete source-to-formula mapping. |
+| Workbook integrity / formula-reference QA | 🔴 Blocked | Issue #30 / draft PR #51 confirmed the canonical and Kaggle-mirror XLSX are the same truncated 12,545-byte corrupt blob. An intact source workbook must be restored before formula/reference, recalculation and behavior checks can run. |
+| Official salary reconciliation | 🟡 In progress | Issue #40 remains open; the 10-row anonymized reconciliation gate is not yet met. Workbook corruption also prevents reliable execution against reference rows. |
+| Deterministic formula validation | 🟡 Specification complete; execution blocked | PR #56 expanded and source-aligned the deterministic suite to 30 cases. Issue #41 remains open because the cases have not been executed against an intact workbook and therefore cannot be marked pass/fail. |
+| Legal and practitioner review | ⏳ Pending | Issue #42 remains outstanding; line-by-line legal/policy review and practitioner sign-off have not completed. |
 | Verified release | ⏳ Pending | Requires completion of every remaining verification gate above. |
 
 ## Progress since the previous checkpoint
 
-- Release/version reconciliation was completed: issue #43 is closed and the live GitHub Release now uses the canonical `v0.1.3` tag.
-- The historical `v2` tag is documented as a deprecated protected legacy alias rather than an active release identifier.
-- A clean, curated v0.1.3 Kaggle/archive publish package was materialized in PR #50 without changing salary/tax formulas or verification status.
-- GitHub Actions and governance tooling were strengthened, including repository-maintenance orchestration and an API-key-free GitHub Models PR reviewer.
-- No new evidence was found that completes source extraction, the 10-row salary reconciliation gate, the 20–30 deterministic validation gate, or legal/practitioner review.
-- No repository commits were found after 2026-08-14 before this weekly review, so the core research/validation status has not advanced since those release-governance changes.
+- PR #53 completed the authoritative root-Wiki navigation migration and governance cleanup without changing workbook or rule status.
+- PR #54 corrected the TY 2026–27 taxpayer-threshold reference layer to current NBR source targets: BDT 375,000 general; BDT 425,000 female/65+; BDT 500,000 third-gender/disability; BDT 525,000 eligible wounded freedom fighter/July Warrior; plus BDT 50,000 for an eligible dependent with disability.
+- PR #55 strengthened authoritative-source traceability for the 20% Baishakhi allowance order, 6% Retirement Benefit deduction authority and 4% Welfare Trust deduction notification, while downgrading unsupported "Verified" labels where workbook implementation is not yet proven.
+- PR #56 expanded the deterministic test catalogue from 15 to 30 source-aligned cases, including threshold boundaries, allowance/deduction cases, partial-year/change cases and integrity checks. The suite is specified but not executed.
+- Issue #30 remains the dominant technical blocker: repository history, the Kaggle mirror and connected recovery searches did not produce an intact canonical workbook. Draft PR #51 correctly continues to fail its workbook-integrity audit rather than bypassing the corruption finding.
+- No evidence was found that completes the 10-row official salary reconciliation gate or legal/practitioner review.
 
 ## Research work still blocking Verified status
 
-- Complete authoritative source extraction for festival allowance, Baishakhi allowance, medical allowance, welfare and retirement deductions, salary-component tax treatment, and any other workbook rule still pending evidence.
+- Restore an intact canonical School & College workbook and replace both the repository workbook and Kaggle publish mirror.
+- Rerun PR #51's XLSX package/formula/reference audit; open the workbook without repair warnings; recalculate; and complete cross-sheet/manual behavior checks.
+- Confirm the restored workbook implements the corrected TY 2026–27 taxpayer thresholds and every source-corrected rule.
+- Complete authoritative source extraction and source-to-formula mapping for festival allowance, medical allowance, salary-component tax treatment, house-rent/special-facility assumptions and any other rule still marked pending or interpretation-required.
+- Execute all 30 deterministic scenarios, record expected versus actual results, and resolve or explicitly block every failure.
 - Reconcile at least 10 anonymized official salary rows against workbook output and explain every material difference.
-- Complete and record 20–30 deterministic formula scenarios, including boundary and exception cases.
-- Resolve all unexplained salary differences and any formula/reference defects found during QA.
 - Complete line-by-line legal/policy review and practitioner review.
 - Complete final workbook/release-asset QA and the release Definition of Done after the evidence gates above are satisfied.
 
@@ -50,10 +53,10 @@
 Each weekly review should:
 
 1. Compare repository changes and project evidence with the previous status.
-2. Promote a status only when evidence supports the change.
+2. Promote or downgrade a status only when evidence supports the change.
 3. Update `wiki/Home.md` and this page with the review date.
 4. Keep **Verified release** pending until every published release gate is satisfied.
 5. Record “no material status change” when work occurred but no release gate advanced.
 6. Confirm README, Wiki, changelog, release notes, Git tag and distribution metadata still use one canonical product release identifier.
 
-**Next scheduled review:** 2026-08-28
+**Next scheduled review:** 2026-09-04
