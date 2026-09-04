@@ -1,6 +1,6 @@
 # 🚦 Project Status
 
-**Last reviewed:** 2026-08-28  
+**Last reviewed:** 2026-09-04  
 **Release line:** v0.1.3  
 **Overall status:** Beta  
 **Review cadence:** Weekly
@@ -30,12 +30,10 @@
 
 ## Progress since the previous checkpoint
 
-- PR #53 completed the authoritative root-Wiki navigation migration and governance cleanup without changing workbook or rule status.
-- PR #54 corrected the TY 2026–27 taxpayer-threshold reference layer to current NBR source targets: BDT 375,000 general; BDT 425,000 female/65+; BDT 500,000 third-gender/disability; BDT 525,000 eligible wounded freedom fighter/July Warrior; plus BDT 50,000 for an eligible dependent with disability.
-- PR #55 strengthened authoritative-source traceability for the 20% Baishakhi allowance order, 6% Retirement Benefit deduction authority and 4% Welfare Trust deduction notification, while downgrading unsupported "Verified" labels where workbook implementation is not yet proven.
-- PR #56 expanded the deterministic test catalogue from 15 to 30 source-aligned cases, including threshold boundaries, allowance/deduction cases, partial-year/change cases and integrity checks. The suite is specified but not executed.
-- Issue #30 remains the dominant technical blocker: repository history, the Kaggle mirror and connected recovery searches did not produce an intact canonical workbook. Draft PR #51 correctly continues to fail its workbook-integrity audit rather than bypassing the corruption finding.
-- No evidence was found that completes the 10-row official salary reconciliation gate or legal/practitioner review.
+- No new commit was merged to `main` after the 2026-08-28 weekly status commit before this review, so no published release gate has advanced.
+- Draft PR #51 was refreshed on 2026-08-29 onto current `main` and now includes stronger regression coverage plus auditing of both canonical and Kaggle workbook copies; it remains intentionally blocked because both copies are still the same corrupt 12,545-byte workbook.
+- No new evidence was found that completes source extraction, the 10-row official salary reconciliation gate, execution of the 30 deterministic scenarios, or legal/practitioner review.
+- Release identity remains consistent on canonical `v0.1.3`; no status promotion is justified.
 
 ## Research work still blocking Verified status
 
@@ -59,4 +57,4 @@ Each weekly review should:
 5. Record “no material status change” when work occurred but no release gate advanced.
 6. Confirm README, Wiki, changelog, release notes, Git tag and distribution metadata still use one canonical product release identifier.
 
-**Next scheduled review:** 2026-09-04
+**Next scheduled review:** 2026-09-11
