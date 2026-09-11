@@ -1,6 +1,6 @@
 # 🚦 Project Status
 
-**Last reviewed:** 2026-09-04  
+**Last reviewed:** 2026-09-11  
 **Release line:** v0.1.3  
 **Overall status:** Beta  
 **Review cadence:** Weekly
@@ -30,8 +30,8 @@
 
 ## Progress since the previous checkpoint
 
-- No new commit was merged to `main` after the 2026-08-28 weekly status commit before this review, so no published release gate has advanced.
-- Draft PR #51 was refreshed on 2026-08-29 onto current `main` and now includes stronger regression coverage plus auditing of both canonical and Kaggle workbook copies; it remains intentionally blocked because both copies are still the same corrupt 12,545-byte workbook.
+- No new commit was merged to `main` after the 2026-09-04 weekly status commit before this review, so no published release gate advanced.
+- Draft PR #51 remains open and intentionally blocked; no intact School & College workbook has been restored, so the canonical and Kaggle workbook copies remain unusable for formula/reference QA and execution-based validation.
 - No new evidence was found that completes source extraction, the 10-row official salary reconciliation gate, execution of the 30 deterministic scenarios, or legal/practitioner review.
 - Release identity remains consistent on canonical `v0.1.3`; no status promotion is justified.
 
@@ -57,4 +57,4 @@ Each weekly review should:
 5. Record “no material status change” when work occurred but no release gate advanced.
 6. Confirm README, Wiki, changelog, release notes, Git tag and distribution metadata still use one canonical product release identifier.
 
-**Next scheduled review:** 2026-09-11
+**Next scheduled review:** 2026-09-18
