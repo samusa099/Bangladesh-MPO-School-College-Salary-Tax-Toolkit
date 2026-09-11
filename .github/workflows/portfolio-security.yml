@@ -32,6 +32,29 @@ jobs:
       - name: Validate repository and workbook files
         run: python3 .github/scripts/repository_policy.py
 
+      - name: Test workbook audit regression fixtures
+        run: python3 .github/scripts/test_workbook_formula_audit.py
+
+      - name: Audit canonical and Kaggle workbook formulas and references
+        run: >-
+          python3 .github/scripts/workbook_formula_audit.py
+          excel/school_college/MPO_School_College_Salary_Tax_BD_TY2026_27.xlsx
+          packages/kaggle/publish/MPO_School_College_Salary_Tax_BD_TY2026_27.xlsx
+
+      - name: Verify canonical and Kaggle workbook mirrors match
+        shell: bash
+        run: |
+          set -euo pipefail
+          canonical="excel/school_college/MPO_School_College_Salary_Tax_BD_TY2026_27.xlsx"
+          mirror="packages/kaggle/publish/MPO_School_College_Salary_Tax_BD_TY2026_27.xlsx"
+          if ! cmp --silent "$canonical" "$mirror"; then
+            echo "::error::Canonical and Kaggle workbook copies differ. Publish only one validated binary to both paths."
+            sha256sum "$canonical" "$mirror"
+            exit 1
+          fi
+          echo "PASS: canonical and Kaggle workbook copies are byte-for-byte identical."
+          sha256sum "$canonical" "$mirror"
+
       - name: Scan committed secrets
         env:
           VERSION: 8.30.1
