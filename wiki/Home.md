@@ -28,7 +28,7 @@ The toolkit converts Bangladesh School & College MPO salary and individual-tax r
 | Main workbook | `excel/school_college/MPO_School_College_Salary_Tax_BD_TY2026_27.xlsx` |
 | Formula policy | Excel 2019-compatible core formulas |
 | Macro policy | No VBA in v1 |
-| Last status review | **2026-09-04** |
+| Last status review | **2026-09-11** |
 
 ## 🏷️ Release Identity
 
@@ -68,7 +68,7 @@ The canonical public product release is **`v0.1.3`**.
 | Verified release | ⏳ Pending |
 
 > [!NOTE]
-> No material release gate advanced since the 2026-08-28 review. Draft PR #51 was refreshed against current `main` and its regression coverage was strengthened, but the canonical and Kaggle-mirror workbooks remain the same truncated/corrupt 12,545-byte XLSX. Workbook QA, deterministic execution, salary reconciliation and confirmation of source-corrected rules therefore remain blocked or incomplete. The project remains Beta.
+> No material release gate advanced since the 2026-09-04 review. No new commit was merged to `main` after that weekly status update before this review, and draft PR #51 remains blocked on recovery of an intact School & College workbook. The canonical and Kaggle-mirror workbooks therefore remain unusable for workbook QA, deterministic execution, salary reconciliation and confirmation of source-corrected rules. The project remains Beta.
 
 See **[Project Status](Project-Status.md)** for dated evidence, remaining release gates and the weekly review rule.
 
@@ -93,6 +93,6 @@ Beta / Verified release
 
 <div align="center">
 
-**Next weekly status review: 2026-09-11**
+**Next weekly status review: 2026-09-18**
 
 </div>
