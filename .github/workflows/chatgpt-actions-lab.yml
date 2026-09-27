@@ -114,7 +114,7 @@ jobs:
       issues: write
     steps:
       - name: Review PR with cirolini/genai-code-review
-        uses: cirolini/genai-code-review@c316e1db847ecbcb530c5fb66c102fb8a3454a4d # v2
+        uses: cirolini/genai-code-review@0b32576a38eca3a0dde5655830fb6307efaa85c5 # v2
         with:
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
